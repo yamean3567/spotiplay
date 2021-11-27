@@ -1,21 +1,26 @@
 import {  useNavigate } from 'react-router-dom';
 import { useState } from 'react'
 
-const Register = () => {
+const Register = (props) => {
     let navigate = useNavigate();
-  const [registerEmail, setRegisterEmail] = useState("");
-  const [registerpassword, setRegisterPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
     return (
         <div>
             <header>
                 <b>REGISTER</b>
             </header>
-            <input placeholder="Email..." onChange={(e) => setRegisterEmail(e.target.value)}/>
-            <input placeholder="Password..." onChange={(e) => setRegisterPassword(e.target.value)}/>
-            <button>Create account</button>
+            <input placeholder="Email..." onChange={(e) => setEmail(e.target.value)}/>
+            <input placeholder="Password..." onChange={(e) => setPassword(e.target.value)}/>
+            <button onClick={() => {
+                props.createUser(email, password)}
+                }>Create account</button>
             <div>
                 <button onClick={() => navigate('/')}>Back to login</button>
+            </div>
+            <div>
+                {props.error}
             </div>
         </div>
     )

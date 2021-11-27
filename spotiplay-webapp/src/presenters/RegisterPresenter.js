@@ -1,25 +1,18 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth'
 import React from 'react'
 import Register from '../components/Start/Register'
-import { auth } from '../firebaseConfig'
-import { useState } from 'react'
+import {useAuth} from '../contexts/auth'
 
 const RegisterPresenter = () => {
-    const [registerEmail, setRegisterEmail] = useState("");
-    const [registerPassword, setRegisterPassword] = useState("");
+    const auth = useAuth();
 
-    const register = async () => {
-        try {
-            const user = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword)
-        } catch(e) {
-            console.log(e);
-        }
+    const handleRegistration = (email, password) => {
+        auth.signUp(email, password);
     }
 
 
     return (
         <div>
-            <Register/>
+            <Register createUser={(email, password) => handleRegistration(email, password)} error={auth.error}/>
         </div>
     )
 }

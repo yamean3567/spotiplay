@@ -1,9 +1,9 @@
 import {  useNavigate } from 'react-router-dom';
 import { useState } from 'react'
-const Login = () => {
-    let navigate = useNavigate();
-  const [loginEmail, setLoginEmail] = useState("");
-  const [loginPassowrd, setLoginPassword] = useState("");
+const Login = (props) => {
+    const navigate = useNavigate();
+    const [loginEmail, setLoginEmail] = useState("");
+    const [loginPassword, setLoginPassword] = useState("");
 
     return (
         <div>
@@ -15,7 +15,12 @@ const Login = () => {
             <input placeholder="Email..." onChange={(e) => setLoginEmail(e.target.value)}/>
             <input placeholder="Password..." onChange={(e) => setLoginPassword(e.target.value)}/>
             <div>
-                <button>Sign in</button>
+                <button onClick={() => {
+                        props.logIn(loginEmail, loginPassword);
+                    }}>Sign in</button>
+            </div>
+            <div>
+                {props.error}
             </div>
         </div>
     )
