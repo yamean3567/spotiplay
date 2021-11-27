@@ -21,7 +21,7 @@ function App() {
             <Home />
           </RequireAuth>
         }/>
-        <Route path="*" element={<Error/>}/>  {/*catch all*/}
+        <Route path="/:pagename" element={<Error/>}/>  {/*catch all*/}
       </Routes>
     </Router>
   );

@@ -15,7 +15,7 @@ const Login = (props) => {
             <input placeholder="Email..." onChange={(e) => setLoginEmail(e.target.value)}/>
             <input placeholder="Password..." onChange={(e) => setLoginPassword(e.target.value)}/>
             <div>
-                <button onClick={() => {
+                <button disabled={props.loading} onClick={() => {
                         props.logIn(loginEmail, loginPassword);
                     }}>Sign in</button>
             </div>

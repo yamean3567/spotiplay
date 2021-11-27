@@ -13,7 +13,7 @@ const Register = (props) => {
             </header>
             <input placeholder="Email..." onChange={(e) => setEmail(e.target.value)}/>
             <input placeholder="Password..." onChange={(e) => setPassword(e.target.value)}/>
-            <button onClick={() => {
+            <button disabled={props.loading} onClick={() => {
                 props.createUser(email, password)}
                 }>Create account</button>
             <div>
