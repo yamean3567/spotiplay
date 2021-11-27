@@ -1,23 +1,28 @@
 import {db} from '../firebaseConfig'
-import { collection, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore'
+import { getDoc, setDoc, updateDoc, doc } from 'firebase/firestore'
 
 const INITIAL_RATING = 1000;   
 const collectionName = 'users';
-const usersCollectionRef = collection(db, collectionName);
 
 export const createUser = async (id, email) => {
-    await addDoc(usersCollectionRef, {
+    console.log(id);
+    await setDoc(doc(db, collectionName, id), {
         email: email,
         rating: INITIAL_RATING,
-        id: id,
     });
 }
 
 export const updateRating = async (id, rating) => {
-    const userDoc = doc(db, collectionName, "de50pbrWvPrJPzWI0jeR");
+    const userDoc = doc(db, collectionName, id);
     await updateDoc(userDoc, {rating: rating}); 
 }
 
 export const getRating = async (id) => {
-    return await getDocs().docs.filter(uid => id === uid);
+    const docRef = doc(db, "users", id);
+    const docSnap = await getDoc(docRef);
+    if(docSnap.exists()) {
+        return docSnap.data().rating;
+    } else {
+        console.log("err (no such doc)");
+    }
 }
