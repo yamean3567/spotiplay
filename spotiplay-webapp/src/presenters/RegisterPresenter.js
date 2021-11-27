@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import Register from '../components/Start/Register';
 import {useAuth} from '../contexts/auth';
 import { useNavigate } from 'react-router';
+import { createUser } from '../models/User';
 
 const RegisterPresenter = () => {
     const[error, setError] = useState();
@@ -10,7 +11,8 @@ const RegisterPresenter = () => {
 
     const handleRegistration = async (email, password) => {
         try {
-            await auth.signUp(email, password);
+            const {user} = await auth.signUp(email, password);
+            createUser(user.uid, email);
             navigate('/home');
         } catch(e) {
             setError(e.message);
