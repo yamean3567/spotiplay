@@ -1,18 +1,26 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
-import About from './components/Start/About'
-import Login from './components/Start/Login'
-import Register from './components/Start/Register'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LoginPresenter from './presenters/LoginPresenter'
+import AboutPresenter from './presenters/AboutPresenter'
+import RegisterPresenter from './presenters/RegisterPresenter'
 import Error from './components/Error/Error'
+import Home from './components/Home/Home'
+import RequireAuth from './components/Auth/RequireAuth';
+
 function App() {
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login/>}/>
-        <Route path="/about" element={<About/>}/>
-        <Route path="/register" element={<Register/>}/>
+        <Route path="/" element={<LoginPresenter/>}/>
+        <Route path="/about" element={<AboutPresenter/>}/>
+        <Route path="/register" element={<RegisterPresenter/>}/>
+        <Route path="/home" element={
+          <RequireAuth>
+            <Home />
+          </RequireAuth>
+        }/>
         <Route path="*" element={<Error/>}/>  {/*catch all*/}
       </Routes>
     </Router>
