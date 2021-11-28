@@ -23,7 +23,6 @@ const RegisterPresenter = () => {
         setLoading(false);
     }
 
-
     return (
         <div>
             <Register createUser={(email, password) => handleRegistration(email, password)} error={error} loading={loading}/>
