@@ -4,15 +4,17 @@ import { auth } from '../firebaseConfig'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import { useEffect } from 'react'
 
-const AuthContext = React.createContext();
+export const AuthContext = React.createContext();
 
 export const useAuth = () => {
-    const [currentUser, setCurrentUser] = useState();
+    const [currentUser, setCurrentUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     //update currentUser if user is registered
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             setCurrentUser(user);
+            setLoading(false);
         })
         return unsubscribe;
     }, [])
@@ -30,6 +32,7 @@ export const useAuth = () => {
     }
 
     return {
+        loading,
         currentUser,
         signUp,
         logIn,

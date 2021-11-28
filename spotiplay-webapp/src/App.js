@@ -7,23 +7,39 @@ import RegisterPresenter from './presenters/RegisterPresenter'
 import Error from './components/Error/Error'
 import Home from './components/Home/Home'
 import RequireAuth from './components/Auth/RequireAuth';
+import RequireNoAuth from './components/Auth/RequireNoAuth';
+import { AuthProvider } from './contexts/auth';
 
 function App() {
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LoginPresenter/>}/>
-        <Route path="/about" element={<AboutPresenter/>}/>
-        <Route path="/register" element={<RegisterPresenter/>}/>
-        <Route path="/home" element={
-          <RequireAuth>
-            <Home />
-          </RequireAuth>
-        }/>
-        <Route path="*" element={<Error/>}/>  {/*catch all*/}
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={
+          <RequireNoAuth>
+            <LoginPresenter/>
+          </RequireNoAuth>
+          }/>
+          <Route path="/about" element={
+          <RequireNoAuth>
+            <AboutPresenter/>
+          </RequireNoAuth>
+          }/>
+          <Route path="/register" element={
+          <RequireNoAuth>
+            <RegisterPresenter/>
+          </RequireNoAuth>
+          }/>
+          <Route path="/home" element={
+            <RequireAuth>
+              <Home />
+            </RequireAuth>
+          }/>
+          <Route path="*" element={<Error/>}/>  {/*catch all*/}
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
