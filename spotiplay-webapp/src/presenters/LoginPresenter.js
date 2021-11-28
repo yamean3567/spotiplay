@@ -1,23 +1,25 @@
 import Login from '../components/Start/Login'
 import {useAuth} from '../contexts/auth';
 import { useNavigate } from 'react-router';
-import { useState } from 'react';
-const LoginPresenter = () => {
-    const [error, setError] = useState();
-    const [loading, setLoading] = useState(false);
+import { useReducer } from 'react';
+import {loginReducer, initialState} from '../reducers/loginReducer'
+
+const LoginPresenter = () => {    
+    const [state, dispatch] = useReducer(loginReducer, initialState)
+    const { error, loading } = state;
     const navigate = useNavigate();
     const auth = useAuth();
     const handleLogin = async (email, password) => {
         try {
-            setLoading(true);
-            setError('');
+            dispatch({type: 'login'});
             await auth.logIn(email, password);
+            dispatch({type: 'success'});
             navigate('/home');
         } catch(e) {
-            setError(e.message);
+            dispatch({type: 'error'})
         }
-        setLoading(false);
     }
+
     return (
         <div>
             <Login logIn={(email, password) => handleLogin(email, password)} error={error} loading={loading}/>
