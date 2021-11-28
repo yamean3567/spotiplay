@@ -10,7 +10,7 @@ const RequireAuth = ({children}) => {
         they were originally trying to visit.
     */
     const location = useLocation(); 
-    return auth.currentUser ? children : <Navigate to="/" replace state={{path: location.pathname}}/>;
+    return auth.currentUser !== null ? children : <Navigate to="/" replace state={{path: location.pathname}}/>;
 }
 
 export default RequireAuth

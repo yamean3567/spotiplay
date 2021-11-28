@@ -7,7 +7,7 @@ import RegisterPresenter from './presenters/RegisterPresenter'
 import Error from './components/Error/Error'
 import Home from './components/Home/Home'
 import RequireAuth from './components/Auth/RequireAuth';
-import { useAuth } from './contexts/auth'
+import { useAuth } from './contexts/auth';
 
 function App() {
   const auth = useAuth();
@@ -15,9 +15,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={auth.currentUser ? <Navigate to="/home" /> : <LoginPresenter/>}/>
+        <Route path="/" element={auth.currentUser !== null ? <Navigate to="/home"/> : <LoginPresenter/>}/>
         <Route path="/about" element={<AboutPresenter/>}/>
-        <Route path="/register" element={auth.currentUser ? <Navigate to="/home" /> :<RegisterPresenter/>}/>
+        <Route path="/register" element={auth.currentUser !== null ? <Navigate to="/home"/> : <RegisterPresenter/>}/>
         <Route path="/home" element={
           <RequireAuth>
             <Home />
