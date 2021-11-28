@@ -9,25 +9,25 @@ const AuthContext = React.createContext();
 export const useAuth = () => {
     const [currentUser, setCurrentUser] = useState();
 
-        //update currentUser if user is registered
-        useEffect(() => {
-            const unsubscribe = onAuthStateChanged(auth, async (user) => {
-                setCurrentUser(user);
-            })
-            return unsubscribe;
-        }, [])
+    //update currentUser if user is registered
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            setCurrentUser(user);
+        })
+        return unsubscribe;
+    }, [])
 
-        const signUp = (email, password) => {
-            return createUserWithEmailAndPassword(auth, email, password);
-        }
+    const signUp = (email, password) => {
+        return createUserWithEmailAndPassword(auth, email, password);
+    }
 
-        const logIn = (email, password) => {
-                return signInWithEmailAndPassword(auth, email, password);
-        }
+    const logIn = (email, password) => {
+            return signInWithEmailAndPassword(auth, email, password);
+    }
 
-        const logOut = () => {
-            return signOut(auth);
-        }
+    const logOut = () => {
+        return signOut(auth);
+    }
 
     return {
         currentUser,

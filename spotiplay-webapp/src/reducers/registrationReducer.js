@@ -16,7 +16,7 @@ export function registrationReducer(state, action) {
         case 'error': {
             return {
                 ...state,
-                error: 'Incorrect email or password',
+                error: 'Incorrectly formatted email or password too short',
                 loading: false,
             }
         }
