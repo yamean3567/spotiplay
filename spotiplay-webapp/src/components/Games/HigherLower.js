@@ -1,10 +1,9 @@
 //forfarande WIP
 import {  useNavigate } from 'react-router-dom';
 import { useState } from 'react'
-const HigherLower = () => {
+const HigherLower = (props) => {
     let navigate = useNavigate();
-    const [selected, select] = useState("");
-    const [password, setPassword] = useState("")
+ 
    return( <div>
         <header>
             <h1> HIGHER or LOWER</h1>
@@ -12,8 +11,11 @@ const HigherLower = () => {
         <button onClick={() => navigate('/Start')}> HOME </button> 
         <div>
             <span>
-        <img src={img1}> {alt1} </img> <button onClick={() => select(alt1), compare(alt1, alt2)}>Higher</button> 
-        <img src={img2}> {alt2} </img> <button onClick={() => select(alt2), compare(alt1, alt2)}>Lower</button>
+        <img src={img1}> {alt1} </img> 
+        <img src={img2}> {alt2} 
+            <button onClick={() => select(alt1), compare(alt1, alt2)} value="Higher"></button> 
+            <button onClick={() => select(alt2), compare(alt1, alt2)} value="Lower"></button>
+        </img> 
         </span>
         </div>                     
 
