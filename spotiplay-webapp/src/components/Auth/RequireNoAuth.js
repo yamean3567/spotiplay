@@ -1,9 +1,9 @@
-import React, { useContext }from 'react'
+import React from 'react'
 import { Navigate } from 'react-router-dom';
-import { AuthContext } from '../../contexts/auth'
+import AuthConsumer from '../../contexts/auth';
 
 const RequireNoAuth = ({children}) => {
-    const auth = useContext(AuthContext);    
+    const auth = AuthConsumer();    
     return auth.currentUser !== null ? <Navigate to="/home"/>: children;
 }
 
