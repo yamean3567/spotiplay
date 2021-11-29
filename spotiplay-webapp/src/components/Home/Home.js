@@ -1,32 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import {useAuth} from '../../contexts/auth'
 import { updateRating } from '../../models/User';
-import { MusicMatch } from '../../apis/MusicMatch/musicMatch';
-
+import AuthConsumer from '../../contexts/auth';
 const Home = () => {
-    const [data, setData] = useState(null);
-    const [mounted, setMounted] = useState();
-    const [loading, setLoading] = useState(true);
-    const auth = useAuth();
+    const auth = AuthConsumer();
     const navigate = useNavigate();
     const handleLogout = () => {
         auth.logOut();
         navigate("/");
     }
-
-    const fetchData = async () => {
-        if(!mounted) return;
-        const temp = await MusicMatch.getTopTracks('us', 8, 2);
-        setData(temp);
-        console.log(temp);
-        setLoading(false);
-    }
-
-    useEffect(() => {
-        setMounted(true);
-        return () => setMounted(false);
-    }, [])
 
     return (
         <div>
@@ -39,12 +21,11 @@ const Home = () => {
                 <button onClick={() => {updateRating(auth.currentUser.uid, 2000);}}>change rating once</button>
             </div>
             <div>
-                <button onClick={() => fetchData()}>Press to get top song in US</button>
+                <button onClick={() => navigate('/home/guessthelyrics')}>Guess the lyrics</button>
             </div>
             <div>
-                {!loading && data && <div>{data.message.body.track_list[0].track.track_name}</div>}
+                <button onClick={() => navigate('/home/higherlower')}>Higher or lower</button>
             </div>
-            <div></div>
         </div>
     )
 }

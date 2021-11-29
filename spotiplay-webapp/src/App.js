@@ -9,6 +9,8 @@ import Home from './components/Home/Home'
 import RequireAuth from './components/Auth/RequireAuth';
 import RequireNoAuth from './components/Auth/RequireNoAuth';
 import { AuthProvider } from './contexts/auth';
+import LyricsGuesserPresenter from './presenters/LyricsGuesserPresenter';
+import HigherLowerPresenter from './presenters/HigherLowerPresenter';
 
 function App() {
 
@@ -34,6 +36,16 @@ function App() {
           <Route path="/home" element={
             <RequireAuth>
               <Home />
+            </RequireAuth>
+          }/>
+          <Route path="/home/guessthelyrics" element={
+            <RequireAuth>
+              <LyricsGuesserPresenter />
+            </RequireAuth>
+          }/>
+          <Route path="/home/higherlower" element={
+            <RequireAuth>
+              <HigherLowerPresenter />
             </RequireAuth>
           }/>
           <Route path="*" element={<Error/>}/>  {/*catch all*/}
