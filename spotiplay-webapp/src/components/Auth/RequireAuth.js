@@ -1,9 +1,8 @@
 import React from 'react'
-import {useAuth} from '../../contexts/auth'
 import { Navigate, useLocation } from 'react-router-dom';
-
+import AuthConsumer from '../../contexts/auth';
 const RequireAuth = ({children}) => {
-    const auth = useAuth();
+    const auth = AuthConsumer();
     /*
         Save location of where user tries to enter. If user is unauthed,
         make them authenticate themselves, and then route them to the page

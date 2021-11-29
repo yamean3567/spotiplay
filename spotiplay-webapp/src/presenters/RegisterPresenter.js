@@ -1,26 +1,35 @@
-import React, {useState} from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import Register from '../components/Start/Register';
-import {useAuth} from '../contexts/auth';
+import { AuthContext } from '../contexts/auth';
 import { useNavigate } from 'react-router';
 import { createUser } from '../models/User';
+import { registrationReducer, initialState } from '../reducers/registrationReducer'
 
 const RegisterPresenter = () => {
-    const [error, setError] = useState();
-    const [loading, setLoading] = useState(false);
-    const auth = useAuth();
+    const [state, dispatch] = useReducer(registrationReducer, initialState)
+    const [mounted, setMounted] = useState();
+    const { error, loading } = state;
+    const auth = useContext(AuthContext);
     const navigate = useNavigate();
+
+
+    useEffect(() => {
+        setMounted(true);
+        return () => setMounted(false);
+    }, [])
+
 
     const handleRegistration = async (email, password) => {
         try {
-            setError('');
-            setLoading(true);
+            if(!mounted) return;
+            dispatch({type: 'register'})
             const {user} = await auth.signUp(email, password);
             createUser(user.uid, email);
+            dispatch({type: 'success'});
             navigate('/home');
         } catch(e) {
-            setError(e.message);
+            dispatch({type: 'error'});
         }
-        setLoading(false);
     }
 
     return (

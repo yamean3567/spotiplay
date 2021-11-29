@@ -1,31 +1,36 @@
-//forfarande WIP
-import {  useNavigate } from 'react-router-dom';
-import { useState } from 'react'
-const HigherLower = (props) => {
-    let navigate = useNavigate();
-    const compare = (higher, lower) => {
-        if(props.getstat(higher)>props.getstat(lower)){
-            //rerender now with alt1 resp akt 2
-        }
-        else navigate("/leaderboard");
-    } 
- 
-   return( <div>
-        <header>
-            <h1> HIGHER or LOWER</h1>
-        </header>
-        <button onClick={() => navigate('/Start')}> HOME </button> 
-        <div>
-            <span>
-        <img src={img1}> {alt1} </img> 
-        <img src={img2}> {alt2} 
-            <button onClick={() => compare(alt2, alt1)} value="Higher"></button> 
-            <button onClick={() => compare(alt1, alt2)} value="Lower"></button>
-        </img> 
-        </span>
-        </div>                     
+import React from 'react'
+import { useNavigate } from 'react-router'
 
-    </div>
-    );
+const HigherLower = (props) => {
+    const navigate = useNavigate();
+
+    return (
+        <div>
+            <header>
+            <h1> HIGHER or LOWER</h1>
+            </header>
+            <div>
+                <button onClick={() => navigate(-1)}>Go back</button>
+            </div>
+            <div>
+                <button onClick={() => props.getTracks('us', 10, 1)}>try displaying top 10 tracks on the US-charts currently</button>
+            </div>
+            <div>
+                <button onClick={() => props.getArtists('us', 10, 1)}>try displaying top 10 artists on the US-charts currently</button>
+            </div>
+            <ul>
+                {!props.tracksLoading && props.tracks.map(track => {
+                    return <li key={track.track.track_id}>Track name: {track.track.track_name}, Rating: {track.track.track_rating}</li>
+                })}
+            </ul>
+            <ul>
+                {!props.artistsLoading && props.artists.map(artist => {
+                    return <li key={artist.artist.artist_id}>Artist name: {artist.artist.artist_name}, Rating: {artist.artist.artist_rating}</li>
+                })}
+
+            </ul>
+        </div>
+    )
 }
-export default HigherLower //notes: inte helt säker på hem navigationen elr hur knapparna ska funka fortfarande WIP
+
+export default HigherLower

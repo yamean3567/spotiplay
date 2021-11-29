@@ -1,16 +1,15 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import {useAuth} from '../../contexts/auth'
 import { updateRating } from '../../models/User';
-
+import AuthConsumer from '../../contexts/auth';
 const Home = () => {
-    const auth = useAuth();
+    const auth = AuthConsumer();
     const navigate = useNavigate();
-
     const handleLogout = () => {
         auth.logOut();
         navigate("/");
     }
+
     return (
         <div>
             Wow we're logged in and protected!
@@ -20,6 +19,12 @@ const Home = () => {
             Update rating test 
             <div>
                 <button onClick={() => {updateRating(auth.currentUser.uid, 2000);}}>change rating once</button>
+            </div>
+            <div>
+                <button onClick={() => navigate('/home/guessthelyrics')}>Guess the lyrics</button>
+            </div>
+            <div>
+                <button onClick={() => navigate('/home/higherlower')}>Higher or lower</button>
             </div>
         </div>
     )
