@@ -3,6 +3,12 @@ import {  useNavigate } from 'react-router-dom';
 import { useState } from 'react'
 const HigherLower = (props) => {
     let navigate = useNavigate();
+    const compare = (higher, lower) => {
+        if(props.getstat(higher)>props.getstat(lower)){
+            //rerender now with alt1 resp akt 2
+        }
+        else navigate("/leaderboard");
+    } 
  
    return( <div>
         <header>
@@ -13,8 +19,8 @@ const HigherLower = (props) => {
             <span>
         <img src={img1}> {alt1} </img> 
         <img src={img2}> {alt2} 
-            <button onClick={() => select(alt1), compare(alt1, alt2)} value="Higher"></button> 
-            <button onClick={() => select(alt2), compare(alt1, alt2)} value="Lower"></button>
+            <button onClick={() => compare(alt2, alt1)} value="Higher"></button> 
+            <button onClick={() => compare(alt1, alt2)} value="Lower"></button>
         </img> 
         </span>
         </div>                     
