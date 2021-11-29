@@ -6,9 +6,9 @@ const HigherLower = (props) => {
 
     return (
         <div>
-            <div>
-                Higher or lower
-            </div>
+            <header>
+            <h1> HIGHER or LOWER</h1>
+            </header>
             <div>
                 <button onClick={() => navigate(-1)}>Go back</button>
             </div>
