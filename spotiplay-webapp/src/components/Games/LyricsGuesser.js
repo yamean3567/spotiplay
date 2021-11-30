@@ -13,10 +13,10 @@ const LyricsGuesser = (props) => {
                 <button onClick={() => navigate(-1)}>Go back</button>
             </div>
             <div>
-                <button onClick={() => props.getLyrics('us', 1, 1)}>Get the top US songs' lyrics</button>
+                <button onClick={() => props.getSentence()}>Random sentence test</button>
             </div>
             <div>
-                {!props.loading && <div>{props.lyrics.lyrics_body}</div>}
+                {!props.loading && <div>Sentence: {props.data.sentence} ~ Word: {props.data.word}</div>}
             </div>
         </div>
     )

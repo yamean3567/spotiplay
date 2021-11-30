@@ -5,7 +5,6 @@ const INITIAL_RATING = 1000;
 const collectionName = 'users';
 
 export const createUser = async (id, email) => {
-    console.log(id);
     await setDoc(doc(db, collectionName, id), {
         email: email,
         rating: INITIAL_RATING,
