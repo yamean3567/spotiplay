@@ -10,7 +10,7 @@ const hideWord = (words, i) => {
 
 
 /*
-  Given a sentence, selects a pseudorandom word to remove.
+  Given lyrics, selects a pseudorandom word to remove.
   Returns object with altered string and word that was removed.
   Sample input and output:
   Input: Lorem ipsum dolor sit amet
