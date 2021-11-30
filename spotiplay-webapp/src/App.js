@@ -48,6 +48,11 @@ function App() {
               <HigherLowerPresenter />
             </RequireAuth>
           }/>
+          <Route path="/home/top" element={
+            <RequireAuth>
+              <TopPresenter />
+            </RequireAuth>
+          }/>
           <Route path="*" element={<Error/>}/>  {/*catch all*/}
         </Routes>
       </Router>
