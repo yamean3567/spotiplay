@@ -13,6 +13,7 @@ export function lyricsGameReducer(state, action) {
                 ...state,
                 started: true,
                 loading: false,
+                disabled: false,
                 sentence: action.payload.sentence,
                 word: action.payload.word,
             };
@@ -32,6 +33,24 @@ export function lyricsGameReducer(state, action) {
                 guessedWord: '',
             }
         }
+        case 'lostGame': {
+            return {
+                ...state,
+                lost: true,
+            }
+        }
+        case 'restartGame': {
+            return {
+                ...state,
+                sentence: action.payload.sentence,
+                word: action.payload.word,
+                guessedWord: '',
+                currentScore: 0,
+                disabled: false,
+                lost: false,
+            }
+
+        }
         default:
             break;
     }
@@ -46,4 +65,5 @@ export const initialState = {
     started: false,
     disabled: false,
     currentScore: 0,
+    lost: false,
 }
