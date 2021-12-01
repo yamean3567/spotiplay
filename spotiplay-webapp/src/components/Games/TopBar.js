@@ -5,7 +5,7 @@ const TopBar = (props) => {
         <div>
             <div>{props.title}</div>
             <div>
-                <button onClick={() => props.navigate(-1)}>Back</button>
+                <button onClick={() => props.navigate("/home")}>Back</button>
             </div>
 
         </div>

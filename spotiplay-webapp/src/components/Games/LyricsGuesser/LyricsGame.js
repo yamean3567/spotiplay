@@ -7,15 +7,15 @@ const LyricsGame = (props) => {
             <div>
                 {!props.loading && <div>Sentence: {props.data.sentence} ~ Word: {props.data.word}</div>}
             </div> 
-             <form onSubmit = {props.guessWord}>
-                        <label>
-                            <input 
-                                type = "text"
-                                value = {props.text}
-                                onChange={e => props.setGuessedWord(e.target.value)}
-                            />
-                        </label>
-            </form> 
+                {!props.formDisabled ? <form onSubmit = {!props.formDisabled ? props.guessWord : e => e.preventDefault()}>
+                            <label>
+                                <input autoFocus 
+                                    type = "text"
+                                    value = {props.text}
+                                    onChange={!props.formDisabled ? e => props.setGuessedWord(e.target.value): ''}
+                                />
+                            </label>
+                </form> : <div>Guessing..</div>}
             <div>
                 {props.currentScore}
             </div>
