@@ -1,37 +1,45 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import { MusicMatch } from '../apis/MusicMatch/musicMatch';
-import LyricsGuesser from '../components/Games/LyricsGuesser'
 import { getSentenceAndWord , getCountry} from '../helpers/lyricsGuesser'
+import { useNavigate } from 'react-router'
+import TopBar from '../components/Games/TopBar';
+import LyricsStart from '../components/Games/LyricsGuesser/LyricsStart';
+import LyricsGame from '../components/Games/LyricsGuesser/LyricsGame';
+import { lyricsGameReducer, initialState } from '../reducers/lyricsGameReducer';
+
 
 const LyricsGuesserPresenter = () => {
-    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+    const [state, dispatch] = useReducer(lyricsGameReducer, initialState);
+    const {loading,  sentence, word, guessedWord, started, disabled, currentScore} = state;
     const [mounted, setMounted] = useState();
-    const [sentence, setSentence] = useState('');
-    const [word, setWord] = useState('');
-    const [guessedWord, setGuessedWord] = useState('');
-    const [flag, setFlag] = useState(true);
+   
 
     //temporary function for testing
     const startGame = async () => {
         if(!mounted) return;
+        dispatch({type: 'disableButton'});
         let country = getCountry(); 
         const track = await MusicMatch.getTopTracks(country, 10, 1);
-        console.log(track);
         const lyrics = await MusicMatch.getLyrics(track[0].track.track_id);
         const {sentence, word} = getSentenceAndWord(lyrics.lyrics_body)
-        setSentence(sentence);
-        setWord(word);
-        setLoading(false);
+        dispatch({type: 'startGame', payload: {sentence: sentence, word: word}});
     }
 
-    const guessWord = (e) => {
+    const guessWord = async (e) => {
         if(!mounted) return;
         e.preventDefault();
         if(word === guessedWord){
-            console.log("yee");
+            //rätt svar
+            let country = getCountry(); 
+            const track = await MusicMatch.getTopTracks(country, 10, 1);
+            const lyrics = await MusicMatch.getLyrics(track[1].track.track_id);
+            const {sentence, word} = getSentenceAndWord(lyrics.lyrics_body)
+            dispatch({type: 'correctAnswer', payload: {currentScore: currentScore+1, sentence: sentence, word: word}});
         } else {
-            setFlag(false);
-            setGuessedWord('');
+            //förlorar
+            //setStarted(false);
+            //setGuessedWord('');
             
         }
     } 
@@ -39,14 +47,19 @@ const LyricsGuesserPresenter = () => {
     
     useEffect(() => {
         setMounted(true);
-        return () => setMounted(false);
+        return () => {setMounted(false)};
     }, [])
 
     return (
         <div>
-           <LyricsGuesser startGame={startGame} flag={flag} setGuessedWord={setGuessedWord} guessWord={guessWord} data={{word: word, sentence: sentence}} loading={loading}
-                         setFlag={setFlag}
-           /> 
+            <TopBar title="Guess the Lyrics" navigate={navigate}/>
+            {!started ? <LyricsStart startGame={startGame} disabled={disabled}/>
+                            : <LyricsGame text={state.guessedWord} 
+                                        setGuessedWord={w => dispatch({type: 'setGuessedWord', payload: {guessedWord: w}})} 
+                                        guessWord={guessWord} data={{word: word, sentence: sentence}} 
+                                        loading={loading}
+                                        currentScore={currentScore}
+                                />}
         </div>
     )
 }

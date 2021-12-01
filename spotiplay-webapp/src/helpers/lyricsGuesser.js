@@ -13,8 +13,6 @@ const countries = ["US", "UK"];
 export const getCountry = () => {
     const i = getRandomNumber(countries.length);
     const country = countries[i];
-    console.log(i);
-    console.log(country);
     return country;
 }
 /*
