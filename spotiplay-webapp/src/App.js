@@ -11,6 +11,7 @@ import RequireNoAuth from './components/Auth/RequireNoAuth';
 import { AuthProvider } from './contexts/auth';
 import LyricsGuesserPresenter from './presenters/LyricsGuesserPresenter';
 import HigherLowerPresenter from './presenters/HigherLowerPresenter';
+import TopPresenter from './presenters/TopPresenter';
 
 function App() {
 
