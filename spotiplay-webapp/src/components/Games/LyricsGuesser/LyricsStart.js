@@ -6,7 +6,7 @@ const LyricsStart = (props) => {
             <div>
                 About the game
             </div>
-            <button disabled={props.disabled} onClick={() => props.startGame()}>{!props.disabled ? "START" : "Starting..."}</button>
+            <button disabled={props.disabled} onClick={() => props.startGame()}>{!props.disabled ? "START" : "Starting in " + props.time}</button>
         </div>
     )
 }
