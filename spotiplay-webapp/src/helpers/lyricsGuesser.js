@@ -8,7 +8,15 @@ const hideWord = (words, i) => {
     return words.join(" ");
 }
 
+const countries = ["US", "UK"];
 
+export const getCountry = () => {
+    const i = getRandomNumber(countries.length);
+    const country = countries[i];
+    console.log(i);
+    console.log(country);
+    return country;
+}
 /*
   Given lyrics, selects a pseudorandom word to remove.
   Returns object with altered string and word that was removed.
