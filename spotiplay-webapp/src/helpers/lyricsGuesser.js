@@ -1,4 +1,5 @@
-//Given a number k, returns a pseudorandom number in 1..k-1
+import { MusicMatch } from "../apis/MusicMatch/musicMatch";
+//Given a number k, returns a pseudorandom number in 0..k-1
 const getRandomNumber = (num) => {
     return Math.floor(Math.random() * num);
 }
@@ -8,14 +9,32 @@ const hideWord = (words, i) => {
     return words.join(" ");
 }
 
+const countries = ["US", "UK"];
 
+export const getCountry = () => {
+    const i = getRandomNumber(countries.length);
+    const country = countries[i];
+    return country;
+}
+
+const getRandomLyrics = async (country, amount, page) => {
+    let tracks = await MusicMatch.getTopTracks(country, amount, page);
+    let track_id = tracks[getRandomNumber(amount)].track.track_id
+    let lyrics = await MusicMatch.getLyrics(track_id);
+    return lyrics.lyrics_body;
+}
 /*
   Given lyrics, selects a pseudorandom word to remove.
   Returns object with altered string and word that was removed.
   Sample input and output:
   Input: Lorem ipsum dolor sit amet
   Output: {word: dolor, sentence: Lorem ipsum ***** sit amet}*/
-export const getSentenceAndWord = (lyrics) => {
+export const getSentenceAndWord = async () => {
+    let country = getCountry(getRandomNumber(2));
+    let page = getRandomNumber(10);         //ändra sen
+    let amount = getRandomNumber(10);
+    let lyrics = await getRandomLyrics(country, amount, page);
+    
     let sentences = lyrics.replace(/[^a-zA-Z\n ]/g,"").split(/\n+/);        
     let words = sentences[getRandomNumber(sentences.length-2)].split(" ");    //-2 to remove copyright junk at the end
     let i = getRandomNumber(words.length);
@@ -24,3 +43,4 @@ export const getSentenceAndWord = (lyrics) => {
         sentence: hideWord(words, i),
     }
 }
+
