@@ -6,11 +6,19 @@ export function lyricsGameReducer(state, action) {
                 formDisabled: true,
             }
         }
-        case 'disableButton': {
+        case 'loadRestart': {
             return {
                 ...state,
                 buttonDisabled: true,
+                restartTime: action.payload.restartTime,
             };
+        }
+        case 'loadStart': {
+            return {
+                ...state,
+                buttonDisabled: true,
+                startTime: action.payload.startTime,
+            }
         }
         case 'startGame': {
             return {
@@ -36,6 +44,7 @@ export function lyricsGameReducer(state, action) {
                 word: action.payload.word,
                 currentScore: action.payload.currentScore,
                 guessedWord: '',
+                buttonDisabled: false,
                 formDisabled: false,
             }
         }
@@ -44,6 +53,7 @@ export function lyricsGameReducer(state, action) {
                 ...state,
                 lost: true,
                 formDisabled: false,
+                buttonDisabled: false,
             }
         }
         case 'restartGame': {
@@ -76,4 +86,6 @@ export const initialState = {
     lost: false,
     fetching: false,
     formDisabled: false,
+    restartTime: -1,
+    startTime: -1,
 }
