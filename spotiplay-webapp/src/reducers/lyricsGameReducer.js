@@ -29,7 +29,15 @@ export function lyricsGameReducer(state, action) {
                 formDisabled: false,
                 sentence: action.payload.sentence,
                 word: action.payload.word,
+                gameTime: action.payload.gameTime,
             };
+        }
+        case 'gameTick': {
+            return {
+                ...state,
+                gameTime: action.payload.gameTime,
+                deduction: 0,
+            }
         }
         case 'setGuessedWord': {
             return {
@@ -46,6 +54,17 @@ export function lyricsGameReducer(state, action) {
                 guessedWord: '',
                 buttonDisabled: false,
                 formDisabled: false,
+                gameTime: action.payload.gameTime
+            }
+        }
+        case 'wrongAnswer': {
+            return {
+                ...state,
+                deduction: action.payload.deduction,
+                guessedWord: '',
+                buttonDisabled: false,
+                formDisabled: false,
+                gameTime: action.payload.gameTime,
             }
         }
         case 'lostGame': {
@@ -66,6 +85,7 @@ export function lyricsGameReducer(state, action) {
                 buttonDisabled: false,
                 formDisabled: false,
                 lost: false,
+                gameTime: action.payload.gameTime,
             }
 
         }
@@ -88,4 +108,5 @@ export const initialState = {
     formDisabled: false,
     restartTime: -1,
     startTime: -1,
+    gameTime: -10000,
 }
