@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 const LyricsGame = (props) => {
     return (
         <div>
@@ -18,6 +17,9 @@ const LyricsGame = (props) => {
                 </form> : <div>Guessing..</div>}
             <div>
                 {props.currentScore}
+            </div>
+            <div>
+                {props.gameTime}
             </div>
         </div>
     )

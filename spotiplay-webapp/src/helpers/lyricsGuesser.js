@@ -19,8 +19,13 @@ export const getCountry = () => {
 
 const getRandomLyrics = async (country, amount, page) => {
     let tracks = await MusicMatch.getTopTracks(country, amount, page);
-    let track_id = tracks[getRandomNumber(amount)].track.track_id
+    let track_id = tracks[getRandomNumber(tracks.length)].track.track_id
     let lyrics = await MusicMatch.getLyrics(track_id);
+    if(!lyrics || lyrics.lyrics_body === '') {
+        //ban the track id.
+        console.log(lyrics);
+        return getRandomLyrics(getCountry(getRandomNumber(2)), (Math.floor(Math.random() * 2) + 1), 10)
+    }
     return lyrics.lyrics_body;
 }
 /*
@@ -31,8 +36,8 @@ const getRandomLyrics = async (country, amount, page) => {
   Output: {word: dolor, sentence: Lorem ipsum ***** sit amet}*/
 export const getSentenceAndWord = async () => {
     let country = getCountry(getRandomNumber(2));
-    let page = getRandomNumber(10);         //ändra sen
-    let amount = getRandomNumber(10);
+    let page = Math.floor(Math.random() * 2) + 1;         //ändra sen
+    let amount = 10;
     let lyrics = await getRandomLyrics(country, amount, page);
     
     let sentences = lyrics.replace(/[^a-zA-Z\n ]/g,"").split(/\n+/);        
