@@ -17,34 +17,33 @@ const LoginPresenter = () => {
     }, [])    
 
     const handleLogin = async () => {
-         try {
+        dispatch({type: 'error', payload: {emailErr: '', passwordErr: ''}})
+        if(email === '' && password === '') {
+            dispatch({type: 'error', payload: {emailErr: 'Please enter your email', passErr: 'Please enter your password'}})
+            console.log("hej")
+            return;
+        }
+        try {
             if(!mounted) return;
             dispatch({type: 'login'});
             await auth.logIn(email, password);
             dispatch({type: 'success'});
             navigate('/home');
         } catch(e) {
-            console.log(e.code);
-            let passErr = null;
-            let emailErr = null;
+            let passErr = '';
+            let emailErr = '';
             switch (e.code) {
                 case 'auth/invalid-email':
-                    if(password.length < 6) {
-                        passErr = 'Please enter your password'
-                    }
-                    if(email.length === 0) {
-                        emailErr = 'Please enter your email'
-                    } else {
-                        emailErr = 'Could not find your spotiplay email'
-                    }
-                    dispatch({type: 'error', payload: {passErr: passErr, emailErr: emailErr}})
-                    break;
-                case 'auth/wrong-password':
-                    passErr = 'Wrong password'
-                    dispatch({type: 'error', payload: {emailErr: emailErr, passErr: passErr, payload: {emailErr: emailErr, passErr: passErr}}})
-                    break;
+                    dispatch({type: 'error', payload: {passErr: passErr, emailErr: 'Invalid email'}})
+                    return;
+                case 'auth/too-many-requests': {
+                    dispatch({type: 'error', payload: {emailErr: 'Too many failed attemps, try again later', passErr: 'Too many failed attemps, try again later'}})
+                    return;
+                }
                 default:
-                    break;
+                    if(password === '') passErr = 'Please enter your password';
+                    dispatch({type: 'error', payload: {emailErr: emailErr, passErr: passErr === '' ? 'Incorrect password' : passErr}})
+                    return;
             }
         }
     }

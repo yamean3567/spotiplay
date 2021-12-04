@@ -24,13 +24,15 @@ export function loginReducer(state, action) {
         case 'setEmail': {
             return {
                 ...state,
-                email: action.payload.email
+                email: action.payload.email,
+                emailError: '',
             }
         }
         case 'setPassword': {
             return {
                 ...state,
-                password: action.payload.password
+                password: action.payload.password,
+                passwordError: '',
             }
         }
         default:
