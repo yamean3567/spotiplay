@@ -16,8 +16,21 @@ export function loginReducer(state, action) {
         case 'error': {
             return {
                 ...state,
-                error: 'Incorrect email or password',
+                emailError: action.payload.emailErr ?  action.payload.emailErr : '',
+                passwordError: action.payload.passErr ? action.payload.passErr : '', 
                 loading: false,
+            }
+        }
+        case 'setEmail': {
+            return {
+                ...state,
+                email: action.payload.email
+            }
+        }
+        case 'setPassword': {
+            return {
+                ...state,
+                password: action.payload.password
             }
         }
         default:
@@ -27,6 +40,9 @@ export function loginReducer(state, action) {
 }
 
 export const initialState = {
-    error: '',
+    emailError: '',
+    passwordError: '',
     loading: false,
+    email: '',
+    password: '',
 }
