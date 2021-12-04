@@ -13,7 +13,7 @@ const HigherLower = (props) => {
                 <button onClick={() => navigate("/home")}>Go back</button>
             </div>
             <div>
-                <button onClick={() => props.getArtists('us', 10, 1)}>try displaying top 10 artists on the US-charts currently</button>
+                <button onClick={() => props.getTracks('us', 10, 1)}>guess the top 10 tracks on the US-charts currently!</button>
             </div>
             <ul>
                 {!props.tracksLoading && props.tracks.map(track => {
