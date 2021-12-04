@@ -20,7 +20,6 @@ const LoginPresenter = () => {
         dispatch({type: 'error', payload: {emailErr: '', passwordErr: ''}})
         if(email === '' && password === '') {
             dispatch({type: 'error', payload: {emailErr: 'Please enter your email', passErr: 'Please enter your password'}})
-            console.log("hej")
             return;
         }
         try {

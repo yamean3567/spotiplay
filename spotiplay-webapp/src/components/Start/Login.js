@@ -1,7 +1,9 @@
 import { BouncingBalls } from 'react-cssfx-loading'
+import { BsMusicPlayer } from 'react-icons/bs'
 const Login = (props) => {
     return (
         <div className="h-screen flex flex-col justify-center items-center">
+            <BsMusicPlayer size={40}/>
             <div className="w-1/3 bg-white shadow-md px-8 pt-6 pb-16">
                 <div className="mb-12 text-center font-bold text-2xl">
                     Spotiplay
@@ -36,7 +38,7 @@ const Login = (props) => {
                     </div>
             </div>
             <button className="p-2 text-sm font-bold text-gray-700" onClick={() => props.navigation('/about')}>
-                About
+                About us
             </button>
         </div>
     )
