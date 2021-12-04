@@ -51,7 +51,12 @@ const RegisterPresenter = () => {
                 case 'auth/weak-password':
                     dispatch({type: 'error', payload: {passErr: 'Password needs to be atleast 6 characters'}})
                     return;
+                case 'auth/email-already-in-use': {
+                    dispatch({type: 'error', payload: {emailErr: 'Email already in use'}})
+                    return;
+                }
                 default:
+                    console.log(e.code);
                     dispatch({type: 'error', payload: {emailErr: 'We are currently experiencing issues, please try again later'}})
             }
         }
