@@ -1,5 +1,23 @@
 export function registrationReducer(state, action) {
     switch (action.type) {
+        case 'setEmail': {
+            return {
+                ...state,
+                email: action.payload.email,
+            }
+        }
+        case 'setPass1': {
+            return {
+                ...state,
+                pass1: action.payload.pass1,
+            }
+        }
+        case 'setPass2': {
+            return {
+                ...state,
+                pass2: action.payload.pass2,
+            }
+        }
         case 'register': {
             return {
                 ...state,
@@ -16,7 +34,8 @@ export function registrationReducer(state, action) {
         case 'error': {
             return {
                 ...state,
-                error: 'Incorrectly formatted email or password too short',
+                emailError: action.payload.emailErr ?  action.payload.emailErr : '',
+                passwordError: action.payload.passErr ? action.payload.passErr : '', 
                 loading: false,
             }
         }
@@ -27,6 +46,10 @@ export function registrationReducer(state, action) {
 }
 
 export const initialState = {
-    error: '',
     loading: false,
+    email: '',
+    pass1: '',
+    pass2: '',
+    emailError: '',
+    passwordError: '',
 }

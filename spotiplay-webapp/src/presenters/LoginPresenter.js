@@ -7,7 +7,7 @@ import { AuthContext } from '../contexts/auth'
 const LoginPresenter = () => {    
     const [state, dispatch] = useReducer(loginReducer, initialState)
     const [mounted, setMounted] = useState();
-    const { error, loading } = state;
+    const { emailError, passwordError, loading, email, password } = state;
     const navigate = useNavigate();
     const auth = useContext(AuthContext);
 
@@ -16,7 +16,12 @@ const LoginPresenter = () => {
         return () => setMounted(false);
     }, [])    
 
-    const handleLogin = async (email, password) => {
+    const handleLogin = async () => {
+        dispatch({type: 'error', payload: {emailErr: '', passwordErr: ''}})
+        if(email === '' && password === '') {
+            dispatch({type: 'error', payload: {emailErr: 'Please enter your email', passErr: 'Please enter your password'}})
+            return;
+        }
         try {
             if(!mounted) return;
             dispatch({type: 'login'});
@@ -24,13 +29,28 @@ const LoginPresenter = () => {
             dispatch({type: 'success'});
             navigate('/home');
         } catch(e) {
-            dispatch({type: 'error'})
+            let passErr = '';
+            let emailErr = '';
+            switch (e.code) {
+                case 'auth/invalid-email':
+                    dispatch({type: 'error', payload: {passErr: passErr, emailErr: 'Invalid email'}})
+                    return;
+                case 'auth/too-many-requests': {
+                    dispatch({type: 'error', payload: {emailErr: 'Too many failed attemps, try again later', passErr: 'Too many failed attemps, try again later'}})
+                    return;
+                }
+                default:
+                    if(password === '') passErr = 'Please enter your password';
+                    dispatch({type: 'error', payload: {emailErr: emailErr, passErr: passErr === '' ? 'Incorrect password' : passErr}})
+                    return;
+            }
         }
     }
 
     return (
         <div>
-            <Login logIn={(email, password) => handleLogin(email, password)} error={error} loading={loading}/>
+            <Login navigation={(path) => navigate(path)} email={email} setEmail={email => dispatch({type: 'setEmail', payload: {email: email}})} 
+                    setPassword={pass => dispatch({type: 'setPassword', payload: {password: pass}})} logIn={() => handleLogin()} error={{emailError, passwordError}} loading={loading}/>
         </div>
     )
 }
