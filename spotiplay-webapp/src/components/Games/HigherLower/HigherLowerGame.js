@@ -5,11 +5,14 @@ const HigherLower = (props) => {
 
     return (
         <div>
-            <div>{props.track1}</div>
-            <div> {props.track2} is
-            <button onClick={(e)=>props.higher(e.target.value)}>Higher</button>
-            <button onClick={(e)=>props.lower(e.target.value)}>Lower</button>
-            on the US chart than {props.track1}
+            <div> track1 {props.track1}</div>
+            <br/>
+            <div> track2 {props.track2} is
+            <br/>
+            <div><button onClick={(e)=>props.higher(props.id1, props.id2)}> Higher </button></div>
+            <br/>
+            <div><button onClick={(e)=>props.lower(props.id1, props.id2)}> Lower </button></div>
+            on the US chart than {props.track1.track_name}
             </div>
             
         </div>

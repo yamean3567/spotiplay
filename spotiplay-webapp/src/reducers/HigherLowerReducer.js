@@ -85,7 +85,7 @@ return state;
 
 export const initialState = {
 loading: true,
-track1: null,
+track1:  null,
 id1: null,
 started: false,
 buttonDisabled: false,

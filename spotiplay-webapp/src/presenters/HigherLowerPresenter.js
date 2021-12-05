@@ -1,7 +1,6 @@
 
 import React, { useEffect, useState, useReducer } from 'react'
 import { useNavigate } from 'react-router'
-import { MusicMatch } from '../apis/MusicMatch/musicMatch';
 import TopBar from '../components/Games/TopBar';
 import HigherLowerStart from '../components/Games/HigherLower/HigherLowerStart';
 import HigherLowerGame from '../components/Games/HigherLower/HigherLowerGame';
@@ -16,32 +15,37 @@ const HigherLowerPresenter = () => {
         formDisabled, currentScore, lost, restartTime, startTime, gameTime} = state;
 
 
-    const higher = async (e) => {
-        e.preventDefault();
+    const higher = async ( id1, id2) => {
+        console.log("higher");
+        console.log("id1: ", id1);
+        console.log("id2: ", id2);
         if(!mounted) return;
         if(id2 < id1) {
             //rätt svar
-            console.log("hej");
             //console.log("word:", word);
             //console.log("guessedword:", guessedWord);
-            const {track1, id1, track2, id2} = await getTwoTracks();
-            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, track1:track1, id1:id1, track2:track2, id2:id2}}),500);
+            const {track1, id1, track2, id2} = await getTwoTracks(null, null);
+            console.log("track1: ", track1);
+            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}}),500);
         } else {
             setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3}}), 500)
             //lite databas fetching, uppdatera highscore om nödvändigt etc
         }
     } 
 
-    const lower = async (e) => {
-        e.preventDefault();
+    const lower = async (id1, id2) => {
+        console.log("lower");
+        console.log("id1: ", id1);
+        console.log("id2: ", id2);
         if(!mounted) return;
         if(id2 > id1) {
             //rätt svar
-            console.log("hej");
+            console.log("track1: ", track1);
             //console.log("word:", word);
             //console.log("guessedword:", guessedWord);
-            const {track1, id1, track2, id2} = await getTwoTracks();
-            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, track1:track1, id1:id1, track2:track2, id2:id2}}),500);
+            const {track1, id1, track2, id2} = await getTwoTracks(null, null);
+            console.log(track1, id1, track2, id2);
+            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}}),500);
         } else {
             setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3}}), 500)
             //lite databas fetching, uppdatera highscore om nödvändigt etc
@@ -52,14 +56,17 @@ const HigherLowerPresenter = () => {
 
     //Handler for restarting game
     const restartGame = async () => {
-        const {track1, id1, track2, id2} = await getTwoTracks( null, null);
-        dispatch({type: 'restartGame', payload: {track1:track1, id1:id1, track2:track2, id2:id2, gameTime: 10}});
+        const {track1, id1, track2, id2} = await getTwoTracks(null, null);
+        dispatch({type: 'restartGame', payload: {track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2, gameTime: 15}});
     }
     
     //Handler for starting game
     const startGame = async () => {
         const {track1, id1, track2, id2} = await getTwoTracks(null, null);
-        dispatch({type: 'startGame', payload: {track1:track1, id1:id1, track2:track2, id2:id2, gameTime: 10}});
+        console.log("start");
+        console.log("track 1: ", track1);
+        console.log("track 2: ", track2);
+        dispatch({type: 'startGame', payload: {track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2, gameTime: 15}});
     }
 
     const endGame = () => {
@@ -117,6 +124,8 @@ const HigherLowerPresenter = () => {
                                      track2={track2}
                                     id1={id1}
                                     id2={id2}
+                                    higher={higher}
+                                    lower={lower}
                                     loading={loading}
                                     currentScore={currentScore}
                                     gameTime={gameTime}
