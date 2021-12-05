@@ -4,8 +4,8 @@ const getRandomNumber = (num) => {
     return Math.floor(Math.random() * num);
 }
 
-export const getTwoTracks = async (country, track1, track1id) => {
-    let tracks = await MusicMatch.getTopTracks(country, 10, 1);
+export const getTwoTracks = async ( track1, track1id) => {
+    let tracks = await MusicMatch.getTopTracks('us', 10, 1);
     let rand2=getRandomNumber(10);
     let track2=tracks[rand2];
 

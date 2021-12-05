@@ -1,35 +1,64 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useReducer } from 'react'
+import { useNavigate } from 'react-router'
 import { MusicMatch } from '../apis/MusicMatch/musicMatch';
 import TopBar from '../components/Games/TopBar';
-import LyricsStart from '../components/Games/HigherLower/HigherLowerStart';
-import HigherLower from '../components/Games/HigherLower/HigherLowerGame';
-import LyricsEnd from '../components/Games/HigherLower/HigherLowerEnd';
+import HigherLowerStart from '../components/Games/HigherLower/HigherLowerStart';
+import HigherLowerGame from '../components/Games/HigherLower/HigherLowerGame';
+import HigherLowerEnd from '../components/Games/HigherLower/HigherLowerEnd';
+import { HigherLowerReducer, initialState } from '../reducers/HigherLowerReducer';
 import { getTwoTracks } from '../helpers/HigherLower'
 const HigherLowerPresenter = () => {
-    //temporary data
-    const [tracks, setTracks] = useState([]);
-    const [loadingTracks, setLoadingTracks] = useState(true);
+    const navigate = useNavigate();
     const [mounted, setMounted] = useState();
-    const [artists, setArtists] = useState([]);
-    const [loadingArtists, setLoadingArtists] = useState(true);
+    const [state, dispatch] = useReducer(HigherLowerReducer, initialState);
+    const {loading, track1, id1, id2, track2, started, buttonDisabled, 
+        formDisabled, currentScore, lost, restartTime, startTime, gameTime} = state;
 
-    useEffect(() => {
-        setMounted(true);
-        return () => setMounted(false);
-    }, [])
+
+    const higher = async (e) => {
+        e.preventDefault();
+        if(!mounted) return;
+        if(id2 < id1) {
+            //rätt svar
+            console.log("hej");
+            //console.log("word:", word);
+            //console.log("guessedword:", guessedWord);
+            const {track1, id1, track2, id2} = await getTwoTracks();
+            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, track1:track1, id1:id1, track2:track2, id2:id2}}),500);
+        } else {
+            setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3}}), 500)
+            //lite databas fetching, uppdatera highscore om nödvändigt etc
+        }
+    } 
+
+    const lower = async (e) => {
+        e.preventDefault();
+        if(!mounted) return;
+        if(id2 > id1) {
+            //rätt svar
+            console.log("hej");
+            //console.log("word:", word);
+            //console.log("guessedword:", guessedWord);
+            const {track1, id1, track2, id2} = await getTwoTracks();
+            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, track1:track1, id1:id1, track2:track2, id2:id2}}),500);
+        } else {
+            setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3}}), 500)
+            //lite databas fetching, uppdatera highscore om nödvändigt etc
+        }
+    } 
 
     //handlers for game start/end etc
 
     //Handler for restarting game
     const restartGame = async () => {
-        const {track1, id1, track2, id2} = await getTwoTracks(country, null, null);
+        const {track1, id1, track2, id2} = await getTwoTracks( null, null);
         dispatch({type: 'restartGame', payload: {track1:track1, id1:id1, track2:track2, id2:id2, gameTime: 10}});
     }
     
     //Handler for starting game
     const startGame = async () => {
-        const {track1, id1, track2, id2} = await getTwoTracks(country, null, null);
+        const {track1, id1, track2, id2} = await getTwoTracks(null, null);
         dispatch({type: 'startGame', payload: {track1:track1, id1:id1, track2:track2, id2:id2, gameTime: 10}});
     }
 
@@ -78,13 +107,16 @@ const HigherLowerPresenter = () => {
         setMounted(true);
         return () => {setMounted(false)};
     }, [])
+
     return (
         <div>
             <TopBar title="Higher or Lower" navigate={navigate}/>
             {(!started && <HigherLowerStart startGame={() => dispatch({type: 'loadStart', payload: {startTime: 3}})} time={startTime} disabled={buttonDisabled}/>) 
-            || (!lost && <HigherLowerGame text={state.guessedWord} 
-                                    setGuessedWord={w => dispatch({type: 'setGuessedWord', payload: {guessedWord: w}})} 
-                                    guessWord={guessWord} data={{word: word, sentence: sentence}} 
+            || (!lost && <HigherLowerGame 
+                                     track1={track1}
+                                     track2={track2}
+                                    id1={id1}
+                                    id2={id2}
                                     loading={loading}
                                     currentScore={currentScore}
                                     gameTime={gameTime}
