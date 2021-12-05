@@ -6,6 +6,7 @@ const HigherLowerStart = (props) => {
             <header>
             <h1> HIGHER or LOWER</h1>
             </header>
+
             <button disabled={props.disabled} onClick={() => props.startGame()}>{!props.disabled ? "START" : "Starting in " + props.time}</button>
         </div>
     )

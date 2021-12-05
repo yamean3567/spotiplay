@@ -20,12 +20,6 @@ const HigherLower = (props) => {
                     return <li key={track.track.track_id}>Track name: {track.track.track_name}, Rating: {track.track.track_rating}</li>
                 })}
             </ul>
-            <ul>
-                {!props.artistsLoading && props.artists.map(artist => {
-                    return <li key={artist.artist.artist_id}>Artist name: {artist.artist.artist_name}, Rating: {artist.artist.artist_rating}</li>
-                })}
-
-            </ul>
         </div>
     )
 }
