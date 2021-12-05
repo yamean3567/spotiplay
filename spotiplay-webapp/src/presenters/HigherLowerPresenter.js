@@ -5,7 +5,7 @@ import TopBar from '../components/Games/TopBar';
 import LyricsStart from '../components/Games/HigherLower/HigherLowerStart';
 import HigherLower from '../components/Games/HigherLower/HigherLowerGame';
 import LyricsEnd from '../components/Games/HigherLower/HigherLowerEnd';
-import { getTwoTracks} from '../helpers/HigherLower'
+import { getTwoTracks } from '../helpers/HigherLower'
 const HigherLowerPresenter = () => {
     //temporary data
     const [tracks, setTracks] = useState([]);
@@ -22,15 +22,15 @@ const HigherLowerPresenter = () => {
     //handlers for game start/end etc
 
     //Handler for restarting game
-    const restartGame = async (country) => {
-        const {track1, track2} = await get2Tracks(country);
-        dispatch({type: 'restartGame', payload: {sentence: sentence, word: word, gameTime: 10}});
+    const restartGame = async () => {
+        const {track1, id1, track2, id2} = await getTwoTracks(country, null, null);
+        dispatch({type: 'restartGame', payload: {track1:track1, id1:id1, track2:track2, id2:id2, gameTime: 10}});
     }
     
     //Handler for starting game
     const startGame = async () => {
-        const {sentence, word} = await getSentenceAndWord();
-        dispatch({type: 'startGame', payload: {sentence: sentence, word: word.toLowerCase(), gameTime: 10}});
+        const {track1, id1, track2, id2} = await getTwoTracks(country, null, null);
+        dispatch({type: 'startGame', payload: {track1:track1, id1:id1, track2:track2, id2:id2, gameTime: 10}});
     }
 
     const endGame = () => {

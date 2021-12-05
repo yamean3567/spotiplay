@@ -20,7 +20,8 @@ export const getTwoTracks = async (country, track1, track1id) => {
     else{
         if(rand2&2==0){
         let track1=tracks[rand2+1];
-        return {tracka: track1, 
+        return {
+            tracka: track1, 
             trackANr: rand2+1,
             trackb: track2,
             trackbNr:rand2,
@@ -28,7 +29,8 @@ export const getTwoTracks = async (country, track1, track1id) => {
         }
         else {
             let track1=tracks[rand2-1];
-        return {tracka: track1, 
+        return {
+            tracka: track1, 
             trackANr: rand2-1,
             trackb: track2,
             trackbNr:rand2,
