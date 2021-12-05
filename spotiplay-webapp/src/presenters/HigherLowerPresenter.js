@@ -21,13 +21,12 @@ const HigherLowerPresenter = () => {
         console.log("id2: ", id2);
         if(!mounted) return;
         if(id2 < id1) {
-            //rätt svar
-            //console.log("word:", word);
-            //console.log("guessedword:", guessedWord);
+            //rätt
+            console.log("rätt")
             const {track1, id1, track2, id2} = await getTwoTracks(null, null);
-            console.log("track1: ", track1);
             setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}}),500);
         } else {
+            console.log("fel")
             setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3}}), 500)
             //lite databas fetching, uppdatera highscore om nödvändigt etc
         }
@@ -39,14 +38,12 @@ const HigherLowerPresenter = () => {
         console.log("id2: ", id2);
         if(!mounted) return;
         if(id2 > id1) {
-            //rätt svar
-            console.log("track1: ", track1);
-            //console.log("word:", word);
-            //console.log("guessedword:", guessedWord);
+            //rätt
+            console.log("rätt")
             const {track1, id1, track2, id2} = await getTwoTracks(null, null);
-            console.log(track1, id1, track2, id2);
             setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}}),500);
         } else {
+            console.log("fel")
             setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3}}), 500)
             //lite databas fetching, uppdatera highscore om nödvändigt etc
         }
