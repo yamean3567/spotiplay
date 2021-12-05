@@ -16,34 +16,34 @@ const HigherLowerPresenter = () => {
 
 
     const higher = async ( id1, id2) => {
-        console.log("higher");
-        console.log("id1: ", id1);
-        console.log("id2: ", id2);
+        // console.log("higher");
+        // console.log("id1: ", id1);
+        // console.log("id2: ", id2);
         if(!mounted) return;
         if(id2 < id1) {
             //rätt
-            console.log("rätt")
+            // console.log("rätt")
             const {track1, id1, track2, id2} = await getTwoTracks(null, null);
             setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}}),500);
         } else {
-            console.log("fel")
+            // console.log("fel")
             setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3}}), 500)
             //lite databas fetching, uppdatera highscore om nödvändigt etc
         }
     } 
 
     const lower = async (id1, id2) => {
-        console.log("lower");
-        console.log("id1: ", id1);
-        console.log("id2: ", id2);
+        // console.log("lower");
+        // console.log("id1: ", id1);
+        // console.log("id2: ", id2);
         if(!mounted) return;
         if(id2 > id1) {
             //rätt
-            console.log("rätt")
+            // console.log("rätt")
             const {track1, id1, track2, id2} = await getTwoTracks(null, null);
             setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}}),500);
         } else {
-            console.log("fel")
+            // console.log("fel")
             setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3}}), 500)
             //lite databas fetching, uppdatera highscore om nödvändigt etc
         }
@@ -54,19 +54,19 @@ const HigherLowerPresenter = () => {
     //Handler for restarting game
     const restartGame = async () => {
         const {track1, id1, track2, id2} = await getTwoTracks(null, null);
-        console.log("restart");
-        console.log("track 1: ", track1);
-        console.log("track 2: ", track2);
-        console.log("track 2 name: ", track2.track.track_name);
+        // console.log("restart");
+        // console.log("track 1: ", track1);
+        // console.log("track 2: ", track2);
+        // console.log("track 2 name: ", track2.track.track_name);
         dispatch({type: 'restartGame', payload: {track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2, gameTime: 15}});
     }
     
     //Handler for starting game
     const startGame = async () => {
         const {track1, id1, track2, id2} = await getTwoTracks(null, null);
-        console.log("start");
-        console.log("track 1: ", track1);
-        console.log("track 2: ", track2);
+        // console.log("start");
+        // console.log("track 1: ", track1);
+        // console.log("track 2: ", track2);
         dispatch({type: 'startGame', payload: {track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2, gameTime: 15}});
     }
 
@@ -83,7 +83,7 @@ const HigherLowerPresenter = () => {
         const intervalId = setInterval(() => {
             dispatch({type: 'loadStart', payload: {startTime: startTime - 1}});
         }, 1000);
-        console.log("tjena");
+        // console.log("tjena");
         return () => clearInterval(intervalId);
     },[startTime])
 
@@ -94,7 +94,7 @@ const HigherLowerPresenter = () => {
         const intervalId = setInterval(() => {
             dispatch({type: 'loadRestart', payload: {restartTime: restartTime - 1}});
         }, 1000);
-        console.log("mors");
+        // console.log("mors");
         return () => clearInterval(intervalId);
     }, [restartTime])
 

@@ -9,10 +9,17 @@ const HigherLower = (props) => {
             <br/>
             <div> {props.track2} is
             <br/>
-            <div><button onClick={()=>props.higher(props.id1, props.id2)}> Higher </button></div>
+            <div><button onClick={()=> props.higher(props.id1, props.id2)}> Higher </button></div>
             <br/>
             <div><button onClick={()=>props.lower(props.id1, props.id2)}> Lower </button></div>
            on the US chart than {props.track1}
+            </div>
+
+            <div>
+                {props.currentScore}
+            </div>
+            <div>
+                {props.gameTime}
             </div>
             
         </div>
