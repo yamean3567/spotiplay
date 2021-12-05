@@ -20,4 +20,4 @@ Full functionality and finished frontend:
 
 ## File Structure
 The majority of the files are sorted in the src folder with the internal folders api, components, contexts, helpers, models, presenters and reducers. 
-Outisde of these are the index.js file and the app.js files with dedicated to the routes of the files. 
+Outsside of these are the index.js file and the app.js files with dedicated to the routes of the files. 
