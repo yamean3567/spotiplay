@@ -5,7 +5,7 @@ import TopBar from '../components/Games/TopBar';
 import LyricsStart from '../components/Games/HigherLower/HigherLowerStart';
 import HigherLower from '../components/Games/HigherLower/HigherLowerGame';
 import LyricsEnd from '../components/Games/HigherLower/HigherLowerEnd';
-import { getSentenceAndWord } from '../helpers/HigherLower'
+import { getTwoTracks} from '../helpers/HigherLower'
 const HigherLowerPresenter = () => {
     //temporary data
     const [tracks, setTracks] = useState([]);
@@ -13,20 +13,71 @@ const HigherLowerPresenter = () => {
     const [mounted, setMounted] = useState();
     const [artists, setArtists] = useState([]);
     const [loadingArtists, setLoadingArtists] = useState(true);
-    //page 1 --> toplist
-    const getTracks = async (country) => {
-        if(!mounted) return;
-        const data = await MusicMatch.getTopTracks(country, 10, 1);
-        setTracks(data);   //array of artists
-        setLoadingTracks(false);
-    }
 
     useEffect(() => {
         setMounted(true);
         return () => setMounted(false);
     }, [])
 
+    //handlers for game start/end etc
 
+    //Handler for restarting game
+    const restartGame = async (country) => {
+        const {track1, track2} = await get2Tracks(country);
+        dispatch({type: 'restartGame', payload: {sentence: sentence, word: word, gameTime: 10}});
+    }
+    
+    //Handler for starting game
+    const startGame = async () => {
+        const {sentence, word} = await getSentenceAndWord();
+        dispatch({type: 'startGame', payload: {sentence: sentence, word: word.toLowerCase(), gameTime: 10}});
+    }
+
+    const endGame = () => {
+        
+    }
+
+//timers
+
+    //Start-game timer (count down for starting game)
+    useEffect(() => {
+        if(startTime === -1) return;
+        if(startTime === 0) startGame(); 
+        const intervalId = setInterval(() => {
+            dispatch({type: 'loadStart', payload: {startTime: startTime - 1}});
+        }, 1000);
+        console.log("tjena");
+        return () => clearInterval(intervalId);
+    },[startTime])
+
+    //Restart-game timer (count down for restarting game)
+    useEffect(() => {
+        if(restartTime === -1) return;
+        if(restartTime === 0) restartGame();
+        const intervalId = setInterval(() => {
+            dispatch({type: 'loadRestart', payload: {restartTime: restartTime - 1}});
+        }, 1000);
+        console.log("mors");
+        return () => clearInterval(intervalId);
+    }, [restartTime])
+
+    useEffect(() => {
+        if(gameTime === -10000)  return;
+        if(gameTime <= 0) setTimeout(() => dispatch({type: 'lostGame'}));
+        const intervalId = setInterval(() => {
+            if(gameTime <= 0) {
+                return;
+            }
+            dispatch({type: 'gameTick', payload: {gameTime: gameTime - 1}});
+        }, 1000);
+        return () => clearInterval(intervalId);
+    }, [gameTime])
+
+    //Clean up
+    useEffect(() => {
+        setMounted(true);
+        return () => {setMounted(false)};
+    }, [])
     return (
         <div>
             <TopBar title="Higher or Lower" navigate={navigate}/>

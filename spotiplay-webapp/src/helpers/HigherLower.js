@@ -4,26 +4,36 @@ const getRandomNumber = (num) => {
     return Math.floor(Math.random() * num);
 }
 
-
-export const getTwoTracks = async (country, track1) => {
+export const getTwoTracks = async (country, track1, track1id) => {
     let tracks = await MusicMatch.getTopTracks(country, 10, 1);
     let rand2=getRandomNumber(10);
     let track2=tracks[rand2];
 
     if(track1){    
-    return [track1, track2];
+    return{
+    tracka: track1, 
+    trackANr: track1id,
+    trackb: track2,
+    trackbNr:rand2,
+    }
     }
     else{
-        let track1=tracks[getRandomNumber(10)];
-    while(track1==track2){
-        track1=tracks[getRandomNumber(10)];
-    }
-        return [track1, track2];
+        if(rand2&2==0){
+        let track1=tracks[rand2+1];
+        return {tracka: track1, 
+            trackANr: rand2+1,
+            trackb: track2,
+            trackbNr:rand2,
+            }
+        }
+        else {
+            let track1=tracks[rand2-1];
+        return {tracka: track1, 
+            trackANr: rand2-1,
+            trackb: track2,
+            trackbNr:rand2,
+            }
+        }
+
     }
 }
-/*
-  Given lyrics, selects a pseudorandom word to remove.
-  Returns object with altered string and word that was removed.
-  Sample input and output:
-  Input: Lorem ipsum dolor sit amet
-  Output: {word: dolor, sentence: Lorem ipsum ***** sit amet}*/
