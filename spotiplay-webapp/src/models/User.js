@@ -1,5 +1,5 @@
 import {db} from '../firebaseConfig'
-import { getDoc, setDoc, updateDoc, doc } from 'firebase/firestore'
+import { getDoc, setDoc, updateDoc, doc, collection, orderBy, limit, getDocs, query } from 'firebase/firestore'
 
 const INITIAL_RATING = 1000;   
 const collectionName = 'users';
@@ -24,4 +24,10 @@ export const getRating = async (id) => {
     } else {
         console.log("err (no such doc)");
     }
+}
+
+export const getTopRating = async () => {
+    const q = query(collection(db, "users"), orderBy("rating", "desc"), limit(20));
+    const docQuery = await getDocs(q);
+    console.log(docQuery);
 }

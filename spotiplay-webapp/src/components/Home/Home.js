@@ -26,6 +26,9 @@ const Home = () => {
             <div>
                 <button onClick={() => navigate('/home/higherlower')}>Higher or lower</button>
             </div>
+            <div>
+                <button onClick={() => navigate('/home/leaderboard')}>Leaderboard</button>
+            </div>
         </div>
     )
 }
