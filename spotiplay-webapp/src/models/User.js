@@ -29,5 +29,5 @@ export const getRating = async (id) => {
 export const getTopRating = async () => {
     const q = query(collection(db, "users"), orderBy("rating", "desc"), limit(20));
     const docQuery = await getDocs(q);
-    console.log(docQuery);
+    return docQuery;
 }
