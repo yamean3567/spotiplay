@@ -14,10 +14,25 @@ export function lyricsGameReducer(state, action) {
             };
         }
         case 'loadStart': {
+            let color = "";
+            switch (action.payload.startTime) {
+                case 3:
+                    color ="bg-red-500"
+                    break;
+                case 2:
+                    color="bg-yellow-500"
+                    break;
+                case 1:
+                    color="bg-green-500"
+                    break;
+                default:
+                    break;
+            }
             return {
                 ...state,
                 buttonDisabled: true,
                 startTime: action.payload.startTime,
+                startColor: color,
             }
         }
         case 'startGame': {
@@ -107,6 +122,7 @@ export const initialState = {
     fetching: false,
     formDisabled: false,
     restartTime: -1,
-    startTime: -1,
+    startTime: 0,
     gameTime: -10000,
+    startColor: "bg-green-800",
 }

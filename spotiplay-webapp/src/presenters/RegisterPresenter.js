@@ -56,7 +56,6 @@ const RegisterPresenter = () => {
                     return;
                 }
                 default:
-                    console.log(e.code);
                     dispatch({type: 'error', payload: {emailErr: 'We are currently experiencing issues, please try again later'}})
             }
         }
