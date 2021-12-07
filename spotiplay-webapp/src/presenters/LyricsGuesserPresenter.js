@@ -21,12 +21,13 @@ const LyricsGuesserPresenter = () => {
         if(!mounted) return;
         if(guessedWord === '') return;
         dispatch({type: 'disableForm'});
-        if(word === guessedWord.toLowerCase()) {
+        console.log(word);
+        if(word.word1.toLowerCase() === guessedWord.toLowerCase() || word.word2.toLowerCase() === guessedWord.toLowerCase()) {
             //rätt svar
             //console.log("word:", word);
             //console.log("guessedword:", guessedWord);
             const {sentence, word} = await getSentenceAndWord();
-            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, sentence: sentence, word: word.toLowerCase()}}), 500);
+            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, sentence: sentence, word: word}}), 500);
         } else {
             setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3}}), 500)
             //lite databas fetching, uppdatera highscore om nödvändigt etc
@@ -42,7 +43,7 @@ const LyricsGuesserPresenter = () => {
     //Handler for starting game
     const startGame = async () => {
         const {sentence, word} = await getSentenceAndWord();
-        dispatch({type: 'startGame', payload: {sentence: sentence, word: word.toLowerCase(), gameTime: 10}});
+        dispatch({type: 'startGame', payload: {sentence: sentence, word: word, gameTime: 10}});
     }
 
     //Start-game timer (count down for starting game)
@@ -89,7 +90,7 @@ const LyricsGuesserPresenter = () => {
             {(!started && <LyricsStart color={startColor} startGame={() => dispatch({type: 'loadStart', payload: {startTime: 3}})} time={startTime} disabled={buttonDisabled}/>) 
             || (!lost && <LyricsGame text={state.guessedWord} 
                                     setGuessedWord={w => dispatch({type: 'setGuessedWord', payload: {guessedWord: w}})} 
-                                    guessWord={guessWord} data={{word: word, sentence: sentence}} 
+                                    guessWord={guessWord} data={{word: word.word1, sentence: sentence}} 
                                     loading={loading}
                                     currentScore={currentScore}
                                     gameTime={gameTime}

@@ -113,7 +113,7 @@ export function lyricsGameReducer(state, action) {
 export const initialState = {
     loading: true,
     sentence: '',
-    word: '',
+    word: {},
     guessedWord: '',
     started: false,
     buttonDisabled: false,
