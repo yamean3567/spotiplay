@@ -45,6 +45,7 @@ export function lyricsGameReducer(state, action) {
                 sentence: action.payload.sentence,
                 word: action.payload.word,
                 gameTime: action.payload.gameTime,
+                usedTracks: [...state.usedTracks, action.payload.id],
             };
         }
         case 'gameTick': {
@@ -61,6 +62,7 @@ export function lyricsGameReducer(state, action) {
             }
         }
         case 'correctAnswer': {
+            console.log("start game: " + action.payload.id)
             return {
                 ...state, 
                 sentence: action.payload.sentence,
@@ -69,7 +71,8 @@ export function lyricsGameReducer(state, action) {
                 guessedWord: '',
                 buttonDisabled: false,
                 formDisabled: false,
-                gameTime: action.payload.gameTime
+                gameTime: action.payload.gameTime,
+                usedTracks: [...state.usedTracks, action.payload.id],
             }
         }
         case 'wrongAnswer': {
@@ -101,6 +104,7 @@ export function lyricsGameReducer(state, action) {
                 formDisabled: false,
                 lost: false,
                 gameTime: action.payload.gameTime,
+                usedTracks: [...state.usedTracks,action.payload.id],
             }
 
         }
@@ -125,4 +129,5 @@ export const initialState = {
     startTime: 0,
     gameTime: -10000,
     startColor: "bg-green-800",
+    usedTracks: [],
 }
