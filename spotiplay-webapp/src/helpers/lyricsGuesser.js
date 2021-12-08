@@ -5,7 +5,7 @@ const getRandomNumber = (num) => {
 }
 
 const hideWord = (words, i) => {
-    words[i] = "_ ".repeat(words[i].length);
+    words[i] = "_".repeat(words[i].length);
     return words.join(" ");
 }
 
@@ -23,7 +23,6 @@ const getRandomLyrics = async (country, amount, page) => {
     let lyrics = await MusicMatch.getLyrics(track_id);
     if(!lyrics || lyrics.lyrics_body === '') {
         //ban the track id.
-        console.log(lyrics);
         return getRandomLyrics(getCountry(getRandomNumber(2)), (Math.floor(Math.random() * 2) + 1), 10)
     }
     return lyrics.lyrics_body;
@@ -31,7 +30,6 @@ const getRandomLyrics = async (country, amount, page) => {
 
 const parseSentence = (lyrics) => {
     let sentences = lyrics.replace(/\\P{L}+/,"").split(/\n+/);        
-    console.log(sentences);
     let words;     //-2 to remove copyright junk at the end
     let tries = 0;
     while(true) {
@@ -44,33 +42,25 @@ const parseSentence = (lyrics) => {
     return words;
 }
 
-const specialCharacters = ["(", ")", "[", "]", "!", "?", ".", ","];
+const specialCharacters = ["(", ")", "[", "]", "!", "?", ".", ",", "-"];
 const parseWord = (word) => {
-    console.log(word);
-    
-    if(word[0].length <= 1) return {word1: word, word2: word};
-    word = word.split();
-    console.log(word);
-    let fst;
+    if(word.length <= 1) return {word1: word, word2: word};
+    word = word.split("");
     word = word.filter(char => !specialCharacters.includes(char))
     if(word.length <= 1) return {word1: word.join(''), word2: word.join('')};
-    if(word[word.length-2] === '\'') {
-        fst = word;
-        console.log("WOO");
-        word[word.length-2] = 'g';
+    if(word[word.length-1] === '\'') {
+        const fst = [...word];
+        word[word.length-1] = 'g';
         return {word1: fst.join(""), word2: word.join("")}
     }
-    console.log(word);
 
     for(let i = 0; i < word.length; i++) {
         if(word[i] === '\'') {
-            console.log("WOO");
-            fst = word;
+            const fst = [...word];
             word[i] = '';
             return {word1: fst.join(""), word2: word.join("")}
         }
     }
-    console.log(word);
     return {word1: word.join(""), word2: word.join("")}
 }
 
