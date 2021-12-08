@@ -4,9 +4,10 @@ const getRandomNumber = (num) => {
     return Math.floor(Math.random() * num);
 }
 
-const hideWord = (words, i) => {
+const hideWord = (helpsentence, words, i) => {
     words[i] = "_".repeat(words[i].length);
-    return words.join(" ");
+    let sentence = helpsentence.concat(words.join(" "));
+    return sentence;
 }
 
 const countries = ["US", "UK"];
@@ -18,29 +19,31 @@ export const getCountry = () => {
 }
 
 
-const getRandomLyrics = async (country, amount, page, usedTracks) => {
+const getRandomLyrics = async (country, amount, page) => {
     let tracks = await MusicMatch.getTopTracks(country, amount, page);
     let track_id = tracks[getRandomNumber(tracks.length)].track.track_id
     let lyrics = await MusicMatch.getLyrics(track_id);
-    if(!lyrics || lyrics.lyrics_body === '' || usedTracks.includes(track_id)) {
-        //ban the track id.
-        return getRandomLyrics(getCountry(getRandomNumber(2)), (Math.floor(Math.random() * 2) + 1), 10, usedTracks)
+    if(!lyrics || lyrics.lyrics_body === ''  || /[\u3400-\u9FBF]/.test(lyrics.lyrics_body)) {
+        return getRandomLyrics(getCountry(getRandomNumber(2)), (Math.floor(Math.random() * 2) + 1), 10)
     }
-    return {id: track_id, lyrics: lyrics.lyrics_body}
+    return lyrics.lyrics_body
 }
 
 const parseSentence = (lyrics) => {
     let sentences = lyrics.replace(/\\P{L}+/,"").split(/\n+/);        
     let words;     //-2 to remove copyright junk at the end
+    let words1;
     let tries = 0;
     while(true) {
-        words = sentences[getRandomNumber(sentences.length-2)].split(" ");
+        let random = getRandomNumber(sentences.length-2) + 1;
+        words1 = sentences[random-1] + "\n";
+        words = sentences[random].split(" ");
         if(!(words.length < 3 || tries > 5)) {
             break;
         }
         tries++;
     }
-    return words;
+    return {help: words1, words: words}
 }
 
 const specialCharacters = ["(", ")", "[", "]", "!", "?", ".", ",", "-"];
@@ -71,19 +74,18 @@ const parseWord = (word) => {
   Sample input and output:
   Input: Lorem ipsum dolor sit amet
   Output: {word: dolor, sentence: Lorem ipsum ***** sit amet}*/
-export const getSentenceAndWord = async (usedTracks) => {
-    console.log(usedTracks);
+export const getSentenceAndWord = async () => {
     let country = getCountry(getRandomNumber(2));
     let page = Math.floor(Math.random() * 2) + 1;         //ändra sen
     let amount = 10;
-    let {id, lyrics} = await getRandomLyrics(country, amount, page, usedTracks);
-    let words = parseSentence(lyrics);  
+    let lyrics = await getRandomLyrics(country, amount, page);
+    let {helpsentence, words} = parseSentence(lyrics);  
     let i = getRandomNumber(words.length);
     let {word1, word2} = parseWord(words[i]);
     return {
         word: {word1, word2},
-        sentence: hideWord(words, i),
-        id: id,
+        sentence: hideWord(helpsentence, words, i),
+        
     }
 }
 
