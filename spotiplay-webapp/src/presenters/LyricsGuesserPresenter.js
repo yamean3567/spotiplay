@@ -72,7 +72,7 @@ const LyricsGuesserPresenter = () => {
             dispatch({type: 'gameTick', payload: {gameTime: gameTime - 1, scoreTimer: scoreTimer - 1}});
         }, 1000);
         return () => clearInterval(intervalId);
-    }, [gameTime])
+    }, [gameTime, scoreTimer])
 
     //Clean up
     useEffect(() => {

@@ -20,15 +20,16 @@ export const getCountry = () => {
 
 const getRandomLyrics = async (country, amount, page) => {
     let tracks = await MusicMatch.getTopTracks(country, amount, page);
+    if(!tracks) {
+        return getRandomLyrics(country, amount, page)
+    }
     let trackIndex = getRandomNumber(tracks.length);
     if(tracks[trackIndex].has_lyrics === 0) {
         return getRandomLyrics(country, amount, page)
     }
-    console.log(tracks);
     let track_id = tracks[trackIndex].track.track_id
     let lyrics = await MusicMatch.getLyrics(track_id);
-    console.log(lyrics);
-    if(/[\u3400-\u9FBF]/.test(lyrics.lyrics_body)) {
+    if(!lyrics || /[\u3400-\u9FBF]/.test(lyrics.lyrics_body)) {
         return getRandomLyrics(country,amount,page)
     }
     return {lyrics: lyrics.lyrics_body, 
@@ -45,7 +46,7 @@ const parseSentence = (lyrics) => {
     let tries = 0;
     while(true) {
         let random = getRandomNumber(sentences.length-2);
-        if(random == 0) continue;
+        if(random === 0) continue;
         words1 = sentences[random-1];
         words = sentences[random].split(" ");
         if(!(words.length < 3 || tries > 5)) {
