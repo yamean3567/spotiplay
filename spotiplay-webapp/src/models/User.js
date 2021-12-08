@@ -19,6 +19,7 @@ export const updateRating = async (id, rating) => {
 export const getRating = async (id) => {
     const docRef = doc(db, "users", id);
     const docSnap = await getDoc(docRef);
+    console.log(docSnap);
     if(docSnap.exists()) {
         return docSnap.data().rating;
     } else {
