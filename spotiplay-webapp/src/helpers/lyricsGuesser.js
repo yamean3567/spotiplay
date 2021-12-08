@@ -28,6 +28,52 @@ const getRandomLyrics = async (country, amount, page) => {
     }
     return lyrics.lyrics_body;
 }
+
+const parseSentence = (lyrics) => {
+    let sentences = lyrics.replace(/\\P{L}+/,"").split(/\n+/);        
+    console.log(sentences);
+    let words;     //-2 to remove copyright junk at the end
+    let tries = 0;
+    while(true) {
+        words = sentences[getRandomNumber(sentences.length-2)].split(" ");
+        if(!(words.length < 3 || tries > 5)) {
+            break;
+        }
+        tries++;
+    }
+    return words;
+}
+
+const specialCharacters = ["(", ")", "[", "]", "!", "?", ".", ","];
+const parseWord = (word) => {
+    console.log(word);
+    
+    if(word[0].length <= 1) return {word1: word, word2: word};
+    word = word.split();
+    console.log(word);
+    let fst;
+    word = word.filter(char => !specialCharacters.includes(char))
+    if(word.length <= 1) return {word1: word.join(''), word2: word.join('')};
+    if(word[word.length-2] === '\'') {
+        fst = word;
+        console.log("WOO");
+        word[word.length-2] = 'g';
+        return {word1: fst.join(""), word2: word.join("")}
+    }
+    console.log(word);
+
+    for(let i = 0; i < word.length; i++) {
+        if(word[i] === '\'') {
+            console.log("WOO");
+            fst = word;
+            word[i] = '';
+            return {word1: fst.join(""), word2: word.join("")}
+        }
+    }
+    console.log(word);
+    return {word1: word.join(""), word2: word.join("")}
+}
+
 /*
   Given lyrics, selects a pseudorandom word to remove.
   Returns object with altered string and word that was removed.
@@ -39,12 +85,12 @@ export const getSentenceAndWord = async () => {
     let page = Math.floor(Math.random() * 2) + 1;         //ändra sen
     let amount = 10;
     let lyrics = await getRandomLyrics(country, amount, page);
-    
-    let sentences = lyrics.replace(/[^a-zA-Z\n ]/g,"").split(/\n+/);        
-    let words = sentences[getRandomNumber(sentences.length-2)].split(" ");    //-2 to remove copyright junk at the end
+    let words = parseSentence(lyrics);  
     let i = getRandomNumber(words.length);
+    let {word1, word2} = parseWord(words[i]);
+    
     return {
-        word: words[i],
+        word: {word1, word2},
         sentence: hideWord(words, i),
     }
 }
