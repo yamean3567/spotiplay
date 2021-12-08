@@ -17,29 +17,43 @@ export const getCountry = () => {
     return country;
 }
 
+
 const getRandomLyrics = async (country, amount, page) => {
     let tracks = await MusicMatch.getTopTracks(country, amount, page);
-    let track_id = tracks[getRandomNumber(tracks.length)].track.track_id
-    let lyrics = await MusicMatch.getLyrics(track_id);
-    if(!lyrics || lyrics.lyrics_body === '') {
-        //ban the track id.
-        return getRandomLyrics(getCountry(getRandomNumber(2)), (Math.floor(Math.random() * 2) + 1), 10)
+    let trackIndex = getRandomNumber(tracks.length);
+    if(tracks[trackIndex].has_lyrics === 0) {
+        return getRandomLyrics(country, amount, page)
     }
-    return lyrics.lyrics_body;
+    console.log(tracks);
+    let track_id = tracks[trackIndex].track.track_id
+    let lyrics = await MusicMatch.getLyrics(track_id);
+    console.log(lyrics);
+    if(/[\u3400-\u9FBF]/.test(lyrics.lyrics_body)) {
+        return getRandomLyrics(country,amount,page)
+    }
+    return {lyrics: lyrics.lyrics_body, 
+        artist: tracks[trackIndex].track.artist_name, 
+        track: tracks[trackIndex].track.track_name,
+        album: tracks[trackIndex].track.album_name,
+    }
 }
 
 const parseSentence = (lyrics) => {
     let sentences = lyrics.replace(/\\P{L}+/,"").split(/\n+/);        
     let words;     //-2 to remove copyright junk at the end
+    let words1;
     let tries = 0;
     while(true) {
-        words = sentences[getRandomNumber(sentences.length-2)].split(" ");
+        let random = getRandomNumber(sentences.length-2);
+        if(random == 0) continue;
+        words1 = sentences[random-1];
+        words = sentences[random].split(" ");
         if(!(words.length < 3 || tries > 5)) {
             break;
         }
         tries++;
     }
-    return words;
+    return {helpsentence: words1, words: words}
 }
 
 const specialCharacters = ["(", ")", "[", "]", "!", "?", ".", ",", "-"];
@@ -74,14 +88,16 @@ export const getSentenceAndWord = async () => {
     let country = getCountry(getRandomNumber(2));
     let page = Math.floor(Math.random() * 2) + 1;         //ändra sen
     let amount = 10;
-    let lyrics = await getRandomLyrics(country, amount, page);
-    let words = parseSentence(lyrics);  
+    let {lyrics, artist, track, album} = await getRandomLyrics(country, amount, page);
+    let {helpsentence, words} = parseSentence(lyrics);  
     let i = getRandomNumber(words.length);
     let {word1, word2} = parseWord(words[i]);
-    
     return {
         word: {word1, word2},
-        sentence: hideWord(words, i),
+        sentence: {helpsentence, hid: hideWord(words, i)},
+        artist,
+        track,
+        album,
     }
 }
 
