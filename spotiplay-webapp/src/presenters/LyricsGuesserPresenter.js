@@ -30,7 +30,6 @@ const LyricsGuesserPresenter = () => {
             setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, sentence: sentence, word: word}}), 500);
         } else {
             setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3}}), 500)
-            //lite databas fetching, uppdatera highscore om nödvändigt etc
         }
     } 
 
