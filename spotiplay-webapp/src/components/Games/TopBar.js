@@ -2,7 +2,7 @@ import React from 'react'
 
 const TopBar = (props) => {
     return (
-        <div>
+        <div className = "font-mono bg-black text-gray-300">
             <div>{props.title}</div>
             <div>
                 <button onClick={() => props.navigate("/home")}>Back</button>

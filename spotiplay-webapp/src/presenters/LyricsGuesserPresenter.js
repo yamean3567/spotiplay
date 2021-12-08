@@ -13,7 +13,7 @@ const LyricsGuesserPresenter = () => {
     const [state, dispatch] = useReducer(lyricsGameReducer, initialState);
     const { loading,  sentence, word, guessedWord, started, buttonDisabled, 
             formDisabled, currentScore, lost, restartTime, startTime, gameTime,
-                startColor } = state;
+                startColor, artist, track, album, scoreTimer} = state;
    
     //Handler for guessing word
     const guessWord = async (e) => {
@@ -23,22 +23,22 @@ const LyricsGuesserPresenter = () => {
         dispatch({type: 'disableForm'});
         if(word.word1.toLowerCase() === guessedWord.toLowerCase() || word.word2.toLowerCase() === guessedWord.toLowerCase()) {
             //rätt svar
-            const {sentence, word} = await getSentenceAndWord();
-            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, sentence: sentence, word: word}}), 200);
+            const {sentence, word, artist, track, album} = await getSentenceAndWord();
+            let newScore = scoreTimer <= 0 ? currentScore + 100 : currentScore + scoreTimer*100 + Math.floor(Math.random() * 40);
+            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, scoreTimer: 10, currentScore: newScore, sentence: sentence, word: word, artist: artist, track: track, album: album}}), 200);
         } else {
-            setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3}}), 200)
+            setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3, scoreTimer: scoreTimer}}), 200)
         }
     } 
-
     
     const restartGame = async () => {
-        const {sentence, word} = await getSentenceAndWord();
-        dispatch({type: 'restartGame', payload: {sentence: sentence, word: word, gameTime: 10}});
+        const {sentence, word, artist, track, album} = await getSentenceAndWord();
+        dispatch({type: 'restartGame', payload: {sentence: sentence, word: word, gameTime: 10, artist: artist, track: track, album: album, scoreTimer: 10}});
     }
 
     const startGame = async () => {
-        const {sentence, word} = await getSentenceAndWord();
-        dispatch({type: 'startGame', payload: {sentence: sentence, word: word, gameTime: 10}});
+        const {sentence, word, artist, track, album} = await getSentenceAndWord();
+        dispatch({type: 'startGame', payload: {sentence: sentence, word: word, gameTime: 10, artist: artist, track: track, album: album, scoreTimer: 10}});
     }
 
     //START-GAME
@@ -69,7 +69,7 @@ const LyricsGuesserPresenter = () => {
             if(gameTime <= 0) {
                 return;
             }
-            dispatch({type: 'gameTick', payload: {gameTime: gameTime - 1}});
+            dispatch({type: 'gameTick', payload: {gameTime: gameTime - 1, scoreTimer: scoreTimer - 1}});
         }, 1000);
         return () => clearInterval(intervalId);
     }, [gameTime])
@@ -86,7 +86,7 @@ const LyricsGuesserPresenter = () => {
             {(!started && <LyricsStart color={startColor} startGame={() => dispatch({type: 'loadStart', payload: {startTime: 3}})} time={startTime} disabled={buttonDisabled}/>) 
             || (!lost && <LyricsGame text={state.guessedWord} 
                                     setGuessedWord={w => dispatch({type: 'setGuessedWord', payload: {guessedWord: w}})} 
-                                    guessWord={guessWord} data={{word: word.word1, sentence: sentence}} 
+                                    guessWord={guessWord} data={{word: word.word1, sentence: sentence, artist: artist, track: track, album: album}} 
                                     loading={loading}
                                     currentScore={currentScore}
                                     gameTime={gameTime}

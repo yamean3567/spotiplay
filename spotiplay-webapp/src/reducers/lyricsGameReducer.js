@@ -45,6 +45,10 @@ export function lyricsGameReducer(state, action) {
                 sentence: action.payload.sentence,
                 word: action.payload.word,
                 gameTime: action.payload.gameTime,
+                artist: action.payload.artist,
+                track: action.payload.track,
+                album: action.payload.album,
+                scoreTimer: action.payload.scoreTimer,
             };
         }
         case 'gameTick': {
@@ -52,6 +56,7 @@ export function lyricsGameReducer(state, action) {
                 ...state,
                 gameTime: action.payload.gameTime,
                 deduction: 0,
+                scoreTimer: action.payload.scoreTimer,
             }
         }
         case 'setGuessedWord': {
@@ -70,6 +75,10 @@ export function lyricsGameReducer(state, action) {
                 buttonDisabled: false,
                 formDisabled: false,
                 gameTime: action.payload.gameTime,
+                artist: action.payload.artist,
+                track: action.payload.track,
+                album: action.payload.album,
+                scoreTimer: action.payload.scoreTimer,
             }
         }
         case 'wrongAnswer': {
@@ -101,6 +110,7 @@ export function lyricsGameReducer(state, action) {
                 formDisabled: false,
                 lost: false,
                 gameTime: action.payload.gameTime,
+                scoreTimer: action.payload.scoreTimer,
             }
 
         }
