@@ -20,17 +20,16 @@ export const getCountry = () => {
 
 const getRandomLyrics = async (country, amount, page) => {
     let tracks = await MusicMatch.getTopTracks(country, amount, page);
+    if(!tracks) {
+        return getRandomLyrics(country, amount, page)
+    }
     let trackIndex = getRandomNumber(tracks.length);
     if(tracks[trackIndex].has_lyrics === 0) {
         return getRandomLyrics(country, amount, page)
     }
-    console.log(tracks);
     let track_id = tracks[trackIndex].track.track_id
     let lyrics = await MusicMatch.getLyrics(track_id);
-    //console.log(/[\u3400-\uff9f]/.test(lyrics.lyrics_body)); 
-
-    //Don't want japanese text, regex we had before /[\u3400-\u9FBF]/
-    if(/[\u3400-\uff9f]/.test(lyrics.lyrics_body)) {
+    if(!lyrics || /[\u3400-\u9FBF]/.test(lyrics.lyrics_body)) {
         return getRandomLyrics(country,amount,page)
     }
     return {lyrics: lyrics.lyrics_body, 
