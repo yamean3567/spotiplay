@@ -1,21 +1,28 @@
 import { useEffect, useState } from "react";
-import { getTopRating } from "../models/User";
+import { getTopHLScore, getTopLGScore } from "../models/User";
 import { useNavigate } from "react-router";
 import TopBar from "../components/Games/TopBar";
 import DisplayLeaderboard from "../components/Games/Leaderboard/Leaderboard"
 
 const LeaderboardPresenter = () =>{
-    const [leaders, setLeaders] = useState([]);
+    const [leadersLG, setLeadersLG] = useState([]);
+    const [leadersHL, setLeadersHL] = useState([]);
     const navigate = useNavigate();
 
     const updateLeaders = async () => {
-        let leaders = await getTopHLScore(20);
-        let arr = [];
-        leaders.forEach(function(doc) {
-            arr.push({...doc.data()})
+        let LG = await getTopLGScore(10);
+        let HL = await getTopHLScore(10);
+        let arr1 = [];
+        let arr2 = [];
+        LG.forEach(function(doc) {
+            arr1.push({...doc.data()})
+        });
+        HL.forEach(function(doc) {
+            arr2.push({...doc.data()})
         });
 
-        setLeaders(arr);
+        setLeadersLG(arr1);
+        setLeadersHL(arr2);
     }
 
     useEffect(() => {
@@ -23,9 +30,12 @@ const LeaderboardPresenter = () =>{
     }, []);
 
     return (
-        <div>
+        <div className="min-h-screen flex flex-col bg-gradient-to-t from-gray-900 to-black">
             <TopBar title="Leaderboard" navigate={navigate}/>
-            <DisplayLeaderboard leaders={leaders}/>
+            <DisplayLeaderboard 
+                leadersLG={leadersLG} 
+                leadersHL={leadersHL}
+            />
         </div>
     );
 };
