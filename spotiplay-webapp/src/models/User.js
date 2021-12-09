@@ -1,13 +1,14 @@
 import {db} from '../firebaseConfig'
 import { getDoc, setDoc, updateDoc, doc, collection, orderBy, limit, getDocs, query } from 'firebase/firestore'
 
-const INITIAL_RATING = 1000;   
+const INITIAL_RATING = 0;   
 const collectionName = 'users';
 
 export const createUser = async (id, email) => {
     await setDoc(doc(db, collectionName, id), {
         email: email,
-        rating: INITIAL_RATING,
+        HLScore: INITIAL_RATING,
+        LGScore: INITIAL_RATING,
     });
 }
 
@@ -27,8 +28,14 @@ export const getRating = async (id) => {
     }
 }
 
-export const getTopRating = async () => {
-    const q = query(collection(db, "users"), orderBy("rating", "desc"), limit(20));
+export const getTopHLScore = async (lim) => {
+    const q = query(collection(db, "users"), orderBy("HLScore", "desc"), limit(lim));
+    const docQuery = await getDocs(q);
+    return docQuery;
+}
+
+export const getTopLGScore = async (lim) => {
+    const q = query(collection(db, "users"), orderBy("LGScore", "desc"), limit(lim));
     const docQuery = await getDocs(q);
     return docQuery;
 }

@@ -9,7 +9,7 @@ const LeaderboardPresenter = () =>{
     const navigate = useNavigate();
 
     const updateLeaders = async () => {
-        let leaders = await getTopRating();
+        let leaders = await getTopHLScore(20);
         let arr = [];
         leaders.forEach(function(doc) {
             arr.push({...doc.data()})
