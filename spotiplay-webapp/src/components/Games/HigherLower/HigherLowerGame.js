@@ -9,9 +9,6 @@ const HigherLower = (props) => {
                 <div className="inset-top center-text p-2 text-sm font-bold text-gray-700 inline-flex inset-right" >
                     Score: {props.currentScore}
                 </div>
-                <div className="inset-top center-text p-2 text-sm font-bold text-gray-700 inline-flex inset-right" >
-                    Time: {props.gameTime}
-                </div>
             </div>
 
             <div className="h-screen flex flex-row inline-flex flex-grow row-span-full">
