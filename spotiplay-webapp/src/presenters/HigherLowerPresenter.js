@@ -23,7 +23,7 @@ const HigherLowerPresenter = () => {
             const {track1, id1, track2, id2} = await getTwoTracks(null, null);
             setTimeout(() => dispatch({type: 'correctAnswer', payload: {currentScore: currentScore+1, 
                 track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1, 
-                track2:track2.track.track_name, artist1:track1.track.artist_name, id2:id2}}), 500);
+                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2}}), 500);
         } else {
             // console.log("fel")
             setTimeout(() => dispatch({type: 'lostGame'}), 500)
