@@ -25,7 +25,7 @@ const Home = () => {
             </div>
             </div>
             <div className="float-right bg-white rounded-lg m-3">
-                {auth.currentUser !== null && <button className="font-bold py-3 rounded" onClick={() => handleLogout()} >Logout</button>}
+                {auth.currentUser !== null && <button className="font-bold py-3 rounded hover:text-green-700" onClick={() => handleLogout()} >Logout</button>}
             </div>
         </div>
     )

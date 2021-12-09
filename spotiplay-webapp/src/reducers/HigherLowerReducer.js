@@ -28,38 +28,25 @@ switch (action.type) {
             buttonDisabled: false,
             formDisabled: false,
             track1: action.payload.track1,
+            artist1: action.payload.artist1,
             id1: action.payload.id1,
             track2: action.payload.track2,
+            artist2: action.payload.artist2,
             id2: action.payload.id2,
-            gameTime: action.payload.gameTime,
         };
-    }
-    case 'gameTick': {
-        return {
-            ...state,
-            gameTime: action.payload.gameTime,
-            deduction: 0,
-        }
     }
     case 'correctAnswer': {
         return {
             ...state, 
             track1: action.payload.track1,
+            artist1: action.payload.artist1,
             id1: action.payload.id1,
             track2: action.payload.track2,
+            artist2: action.payload.artist2,
             id2: action.payload.id2,
             currentScore: action.payload.currentScore,
             buttonDisabled: false,
             formDisabled: false,
-            gameTime: action.payload.gameTime
-        }
-    }
-    case 'wrongAnswer': {
-        return {
-            ...state,
-            deduction: action.payload.deduction,
-            buttonDisabled: false,
-            gameTime: action.payload.gameTime,
         }
     }
     case 'lostGame': {
@@ -73,13 +60,14 @@ switch (action.type) {
         return {
             ...state,
             track1: action.payload.track1,
+            artist1: action.payload.artist1,
             id1: action.payload.id1,
             track2: action.payload.track2,
+            artist2: action.payload.artist2,
             id2: action.payload.id2,
             currentScore: 0,
             buttonDisabled: false,
             lost: false,
-            gameTime: action.payload.gameTime,
         }
 
     }
@@ -92,8 +80,10 @@ return state;
 export const initialState = {
 loading: true,
 track1:  null,
+artist1: null,
 id1: null,
 track2:  null,
+artist2: null,
 id2: null,
 started: false,
 buttonDisabled: false,
@@ -102,5 +92,4 @@ lost: false,
 fetching: false,
 restartTime: -1,
 startTime: -1,
-gameTime: -10000,
 }

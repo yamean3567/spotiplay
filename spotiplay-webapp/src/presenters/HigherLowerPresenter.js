@@ -11,20 +11,19 @@ const HigherLowerPresenter = () => {
     const navigate = useNavigate();
     const [mounted, setMounted] = useState();
     const [state, dispatch] = useReducer(HigherLowerReducer, initialState);
-    const {loading, track1, id1, id2, track2, started, buttonDisabled, 
+    const {loading, track1, artist1, artist2, id1, id2, track2, started, buttonDisabled, 
         formDisabled, currentScore, lost, restartTime, startTime} = state;
 
 
     const higher = async ( id1, id2) => {
-        // console.log("higher");
-        // console.log("id1: ", id1);
-        // console.log("id2: ", id2);
         if(!mounted) return;
         if(id2 < id1) {
             //rätt
             // console.log("rätt")
             const {track1, id1, track2, id2} = await getTwoTracks(null, null);
-            setTimeout(() => dispatch({type: 'correctAnswer', payload: {currentScore: currentScore+1, track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}}),500);
+            setTimeout(() => dispatch({type: 'correctAnswer', payload: {currentScore: currentScore+1, 
+                track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1, 
+                track2:track2.track.track_name, artist1:track1.track.artist_name, id2:id2}}), 500);
         } else {
             // console.log("fel")
             setTimeout(() => dispatch({type: 'lostGame'}), 500)
@@ -33,15 +32,15 @@ const HigherLowerPresenter = () => {
     } 
 
     const lower = async (id1, id2) => {
-        // console.log("lower");
-        // console.log("id1: ", id1);
-        // console.log("id2: ", id2);
+
         if(!mounted) return;
         if(id2 > id1) {
             //rätt
             // console.log("rätt")
             const {track1, id1, track2, id2} = await getTwoTracks(null, null);
-            setTimeout(() => dispatch({type: 'correctAnswer', payload: { currentScore: currentScore+1, track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}}),500);
+            setTimeout(() => dispatch({type: 'correctAnswer', payload: { currentScore: currentScore+1, 
+                track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
+                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2}}),500);
         } else {
             // console.log("fel")
             setTimeout(() => dispatch({type: 'lostGame'}), 500)
@@ -58,7 +57,8 @@ const HigherLowerPresenter = () => {
         // console.log("track 1: ", track1);   
         // console.log("track 2: ", track2);
         // console.log("track 2 name: ", track2.track.track_name);
-        dispatch({type: 'restartGame', payload: {track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}});
+        dispatch({type: 'restartGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1, 
+                                                 track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2}});
     }
     
     //Handler for starting game
@@ -67,7 +67,8 @@ const HigherLowerPresenter = () => {
         // console.log("start");
         // console.log("track 1: ", track1);
         // console.log("track 2: ", track2);
-        dispatch({type: 'startGame', payload: {track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}});
+        dispatch({type: 'startGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
+                                               track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2}});
     }
 
     const endGame = () => {
@@ -111,6 +112,8 @@ const HigherLowerPresenter = () => {
             || (!lost && <HigherLowerGame 
                                      track1={track1}
                                      track2={track2}
+                                     artist1={artist1}
+                                     artist2={artist2}
                                     id1={id1}
                                     id2={id2}
                                     higher={higher}

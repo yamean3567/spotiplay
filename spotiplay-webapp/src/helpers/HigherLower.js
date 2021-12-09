@@ -6,9 +6,9 @@ const getRandomNumber = (num) => {
 
 export const getTwoTracks = async (track1, id1) => {
     let tracks = await MusicMatch.getTopTracks('us', 20, 1);
-    console.log("tracks ", tracks);
+    //console.log("tracks ", tracks);
     let rand2=getRandomNumber(20);
-    console.log("random number ", rand2)
+    //console.log("random number ", rand2)
     let track2=tracks[rand2];
 
     if(track1!=null){    
