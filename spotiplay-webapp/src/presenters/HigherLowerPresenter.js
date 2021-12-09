@@ -12,7 +12,7 @@ const HigherLowerPresenter = () => {
     const [mounted, setMounted] = useState();
     const [state, dispatch] = useReducer(HigherLowerReducer, initialState);
     const {loading, track1, artist1, artist2, id1, id2, track2, started, buttonDisabled, 
-        formDisabled, currentScore, lost, restartTime, startTime} = state;
+        formDisabled, currentScore, lost, restartTime, startTime, startColor} = state;
 
 
     const higher = async ( id1, id2) => {
@@ -79,12 +79,11 @@ const HigherLowerPresenter = () => {
 
     //Start-game timer (count down for starting game)
     useEffect(() => {
-        if(startTime === -1) return;
-        if(startTime === 0) startGame(); 
+        if(startTime === 0) return;
+        if(startTime === 1) setTimeout(() => startGame(), 500); 
         const intervalId = setInterval(() => {
             dispatch({type: 'loadStart', payload: {startTime: startTime - 1}});
         }, 1000);
-        // console.log("tjena");
         return () => clearInterval(intervalId);
     },[startTime])
 
@@ -108,7 +107,7 @@ const HigherLowerPresenter = () => {
     return (
         <div>
             <TopBar title="Higher or Lower" navigate={navigate}/>
-            {(!started && <HigherLowerStart startGame={() => dispatch({type: 'loadStart', payload: {startTime: 3}})} time={startTime} disabled={buttonDisabled}/>) 
+            {(!started && <HigherLowerStart color={startColor} startGame={() => dispatch({type: 'loadStart', payload: {startTime: 3}})} time={startTime} disabled={buttonDisabled}/>) 
             || (!lost && <HigherLowerGame 
                                      track1={track1}
                                      track2={track2}

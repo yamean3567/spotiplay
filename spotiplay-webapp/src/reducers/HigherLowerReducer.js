@@ -14,10 +14,25 @@ switch (action.type) {
         };
     }
     case 'loadStart': {
+        let color = "";
+            switch (action.payload.startTime) {
+                case 3:
+                    color ="bg-red-500"
+                    break;
+                case 2:
+                    color="bg-yellow-500"
+                    break;
+                case 1:
+                    color="bg-green-500"
+                    break;
+                default:
+                    break;
+            }
         return {
             ...state,
             buttonDisabled: true,
             startTime: action.payload.startTime,
+            startColor: color,
         }
     }
     case 'startGame': {
@@ -91,5 +106,6 @@ currentScore: 0,
 lost: false,
 fetching: false,
 restartTime: -1,
-startTime: -1,
+startTime: 0,
+startColor: "bg-green-800",
 }
