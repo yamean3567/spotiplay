@@ -55,7 +55,7 @@ const HigherLowerPresenter = () => {
     const restartGame = async () => {
         const {track1, id1, track2, id2} = await getTwoTracks(null, null);
         // console.log("restart");
-        // console.log("track 1: ", track1);
+        // console.log("track 1: ", track1);   
         // console.log("track 2: ", track2);
         // console.log("track 2 name: ", track2.track.track_name);
         dispatch({type: 'restartGame', payload: {track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2, gameTime: 15}});
