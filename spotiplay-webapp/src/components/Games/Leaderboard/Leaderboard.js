@@ -16,7 +16,7 @@ const DisplayLeaderboard = (props) => {
             <div id="tab-contents">
                 <div id="first" className={activeTab === "Tab 1" ? "p-4" : "hidden p-4"}>
                     {props.leadersLG.map((data, i) => (
-                        <div className="mt-6">
+                        <div key={data.email} className="mt-6">
                             <div key={i} className={i === 0 ? "bg-yellow-300" : "text-white"}>
                                 {i+1}. {data.email}
                             </div>
@@ -28,7 +28,7 @@ const DisplayLeaderboard = (props) => {
                 </div>
                 <div id="second" className={activeTab === "Tab 2" ? "p-4" : "hidden p-4"}>
                     {props.leadersHL.map((data, i) => (
-                        <div className="mt-6">
+                        <div key={data.email} className="mt-6">
                             <div key={i} className={i === 0 ? "bg-yellow-300" : "text-white"}>
                                 {i+1}. {data.email}
                             </div>
