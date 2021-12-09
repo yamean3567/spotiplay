@@ -12,7 +12,7 @@ const HigherLowerPresenter = () => {
     const [mounted, setMounted] = useState();
     const [state, dispatch] = useReducer(HigherLowerReducer, initialState);
     const {loading, track1, id1, id2, track2, started, buttonDisabled, 
-        formDisabled, currentScore, lost, restartTime, startTime, gameTime} = state;
+        formDisabled, currentScore, lost, restartTime, startTime} = state;
 
 
     const higher = async ( id1, id2) => {
@@ -24,10 +24,10 @@ const HigherLowerPresenter = () => {
             //rätt
             // console.log("rätt")
             const {track1, id1, track2, id2} = await getTwoTracks(null, null);
-            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}}),500);
+            setTimeout(() => dispatch({type: 'correctAnswer', payload: {currentScore: currentScore+1, track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}}),500);
         } else {
             // console.log("fel")
-            setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3}}), 500)
+            setTimeout(() => dispatch({type: 'lostGame'}), 500)
             //lite databas fetching, uppdatera highscore om nödvändigt etc
         }
     } 
@@ -41,10 +41,10 @@ const HigherLowerPresenter = () => {
             //rätt
             // console.log("rätt")
             const {track1, id1, track2, id2} = await getTwoTracks(null, null);
-            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, currentScore: currentScore+1, track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}}),500);
+            setTimeout(() => dispatch({type: 'correctAnswer', payload: { currentScore: currentScore+1, track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}}),500);
         } else {
             // console.log("fel")
-            setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3}}), 500)
+            setTimeout(() => dispatch({type: 'lostGame'}), 500)
             //lite databas fetching, uppdatera highscore om nödvändigt etc
         }
     } 
@@ -58,7 +58,7 @@ const HigherLowerPresenter = () => {
         // console.log("track 1: ", track1);   
         // console.log("track 2: ", track2);
         // console.log("track 2 name: ", track2.track.track_name);
-        dispatch({type: 'restartGame', payload: {track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2, gameTime: 15}});
+        dispatch({type: 'restartGame', payload: {track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}});
     }
     
     //Handler for starting game
@@ -67,7 +67,7 @@ const HigherLowerPresenter = () => {
         // console.log("start");
         // console.log("track 1: ", track1);
         // console.log("track 2: ", track2);
-        dispatch({type: 'startGame', payload: {track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2, gameTime: 15}});
+        dispatch({type: 'startGame', payload: {track1:track1.track.track_name, id1:id1, track2:track2.track.track_name, id2:id2}});
     }
 
     const endGame = () => {
@@ -98,18 +98,6 @@ const HigherLowerPresenter = () => {
         return () => clearInterval(intervalId);
     }, [restartTime])
 
-    useEffect(() => {
-        if(gameTime === -10000)  return;
-        if(gameTime <= 0) setTimeout(() => dispatch({type: 'lostGame'}));
-        const intervalId = setInterval(() => {
-            if(gameTime <= 0) {
-                return;
-            }
-            dispatch({type: 'gameTick', payload: {gameTime: gameTime - 1}});
-        }, 1000);
-        return () => clearInterval(intervalId);
-    }, [gameTime])
-
     //Clean up
     useEffect(() => {
         setMounted(true);
@@ -129,7 +117,6 @@ const HigherLowerPresenter = () => {
                                     lower={lower}
                                     loading={loading}
                                     currentScore={currentScore}
-                                    gameTime={gameTime}
                                     formDisabled={formDisabled}/>)
                                     
             || <HigherLowerEnd disabled={buttonDisabled} score={currentScore} navigate={navigate} restartGame={() => dispatch({type: 'loadRestart', payload: {restartTime: 3}})} time={restartTime}/>}
