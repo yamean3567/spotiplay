@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { updateRating } from '../../models/User';
 import AuthConsumer from '../../contexts/auth';
+
 const Home = () => {
     const auth = AuthConsumer();
     const navigate = useNavigate();
@@ -11,20 +12,20 @@ const Home = () => {
     }
 
     return (
-        <div>
-            Wow we're logged in and protected!
-            <div>
-                {auth.currentUser !== null && <button onClick={() => handleLogout()}>Logout</button>}
+        <div className="h-screen flex flex-col justify-center items-center bg-white">
+            <div className="w-1/3 bg-white shadow-md px-8 pt-6 pb-16 text-white">
+            <div className="p-1 bg-green-800 rounded-lg m-3 text-center hover:bg-green-900 ">
+                <button className="font-bold py-3 rounded" onClick={() => {updateRating(auth.currentUser.uid, 2000);}}>change rating once</button>
             </div>
-            Update rating test 
-            <div>
-                <button onClick={() => {updateRating(auth.currentUser.uid, 2000);}}>change rating once</button>
+            <div className="p-1 bg-green-700 rounded-lg m-3 text-center hover:bg-green-900">
+                <button className="font-bold py-3 rounded" onClick={() => navigate('/home/guessthelyrics')}>Guess the Lyrics</button>
             </div>
-            <div>
-                <button onClick={() => navigate('/home/guessthelyrics')}>Guess the lyrics</button>
+            <div className="p-1 bg-green-600 rounded-lg m-3 text-center hover:bg-green-900">
+                <button className="font-bold py-3 rounded" onClick={() => navigate('/home/higherlower')}>Higher or Lower</button>
             </div>
-            <div>
-                <button onClick={() => navigate('/home/higherlower')}>Higher or lower</button>
+            </div>
+            <div className="float-right bg-white rounded-lg m-3">
+                {auth.currentUser !== null && <button className="font-bold py-3 rounded hover:text-green-700" onClick={() => handleLogout()} >Logout</button>}
             </div>
             <div>
                 <button onClick={() => navigate('/home/leaderboard')}>Leaderboard</button>

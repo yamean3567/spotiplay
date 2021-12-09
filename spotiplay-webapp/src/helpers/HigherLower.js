@@ -5,11 +5,14 @@ const getRandomNumber = (num) => {
 }
 
 export const getTwoTracks = async (track1, id1) => {
-    let tracks = await MusicMatch.getTopTracks('us', 10, 1);
-    let rand2=getRandomNumber(10);
+    let tracks = await MusicMatch.getTopTracks('us', 20, 1);
+    console.log("tracks ", tracks);
+    if(tracks=== undefined){ return getTwoTracks(track1, id1)};
+    let rand2=getRandomNumber(20);
+    //console.log("random number ", rand2)
     let track2=tracks[rand2];
 
-    if(track1!=null){    
+    if(track1!=null || !track1){    
     return {track1:track1, id1:id1, track2:track2, id2:rand2}
     
     }
