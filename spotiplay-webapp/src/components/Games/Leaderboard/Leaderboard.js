@@ -29,13 +29,13 @@ const DisplayLeaderboard = (props) => {
                 <div id="second" className={activeTab === "Tab 2" ? "p-4" : "hidden p-4"}>
                     {props.leadersHL.map((data, i) => (
                         <div className="mt-6">
-                        <div key={i} className={i === 0 ? "bg-yellow-300" : "text-white"}>
-                            {i+1}. {data.email}
+                            <div key={i} className={i === 0 ? "bg-yellow-300" : "text-white"}>
+                                {i+1}. {data.email}
+                            </div>
+                            <div className="text-white">
+                                Score: {data.HLScore}
+                            </div>
                         </div>
-                        <div className="text-white">
-                            Score: {data.HLScore}
-                        </div>
-                    </div>
                     ))}
                 </div>
             </div>
