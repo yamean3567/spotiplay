@@ -79,6 +79,7 @@ export function lyricsGameReducer(state, action) {
                 track: action.payload.track,
                 album: action.payload.album,
                 scoreTimer: action.payload.scoreTimer,
+                newPoints: action.payload.newPoints,
             }
         }
         case 'wrongAnswer': {
@@ -135,4 +136,5 @@ export const initialState = {
     startTime: 0,
     gameTime: -10000,
     startColor: "bg-green-800",
+    newPoints: null,
 }

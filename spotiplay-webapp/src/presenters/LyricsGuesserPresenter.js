@@ -13,7 +13,7 @@ const LyricsGuesserPresenter = () => {
     const [state, dispatch] = useReducer(lyricsGameReducer, initialState);
     const { loading,  sentence, word, guessedWord, started, buttonDisabled, 
             formDisabled, currentScore, lost, restartTime, startTime, gameTime,
-                startColor, artist, track, album, scoreTimer} = state;
+                startColor, artist, track, album, scoreTimer, newPoints} = state;
    
     //Handler for guessing word
     const guessWord = async (e) => {
@@ -24,8 +24,8 @@ const LyricsGuesserPresenter = () => {
         if(word.word1.toLowerCase() === guessedWord.toLowerCase() || word.word2.toLowerCase() === guessedWord.toLowerCase()) {
             //rätt svar
             const {sentence, word, artist, track, album} = await getSentenceAndWord();
-            let newScore = scoreTimer <= 0 ? currentScore + 100 : currentScore + scoreTimer*100 + Math.floor(Math.random() * 40);
-            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, scoreTimer: 10, currentScore: newScore, sentence: sentence, word: word, artist: artist, track: track, album: album}}), 200);
+            let newPoints = scoreTimer <= 0 ? 100 : scoreTimer*100 + Math.floor(Math.random() * 40); 
+            setTimeout(() => dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, scoreTimer: 10, currentScore: currentScore + newPoints, newPoints: newPoints, sentence: sentence, word: word, artist: artist, track: track, album: album}}), 200);
         } else {
             setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3, scoreTimer: scoreTimer}}), 200)
         }
@@ -33,12 +33,12 @@ const LyricsGuesserPresenter = () => {
     
     const restartGame = async () => {
         const {sentence, word, artist, track, album} = await getSentenceAndWord();
-        dispatch({type: 'restartGame', payload: {sentence: sentence, word: word, gameTime: 10, artist: artist, track: track, album: album, scoreTimer: 10}});
+        dispatch({type: 'restartGame', payload: {sentence: sentence, word: word, gameTime: 300, artist: artist, track: track, album: album, scoreTimer: 10, newPoints: null}});
     }
 
     const startGame = async () => {
         const {sentence, word, artist, track, album} = await getSentenceAndWord();
-        dispatch({type: 'startGame', payload: {sentence: sentence, word: word, gameTime: 10, artist: artist, track: track, album: album, scoreTimer: 10}});
+        dispatch({type: 'startGame', payload: {sentence: sentence, word: word, gameTime: 300, artist: artist, track: track, album: album, scoreTimer: 10, newPoints: null}});
     }
 
     //START-GAME
@@ -72,7 +72,7 @@ const LyricsGuesserPresenter = () => {
             dispatch({type: 'gameTick', payload: {gameTime: gameTime - 1, scoreTimer: scoreTimer - 1}});
         }, 1000);
         return () => clearInterval(intervalId);
-    }, [gameTime])
+    }, [gameTime, scoreTimer])
 
     //Clean up
     useEffect(() => {
@@ -81,7 +81,7 @@ const LyricsGuesserPresenter = () => {
     }, [])
 
     return (
-        <div>
+        <div className="flex h-screen flex-col overflow-hidden">
             <TopBar title="Guess the Lyrics" navigate={navigate}/>
             {(!started && <LyricsStart color={startColor} startGame={() => dispatch({type: 'loadStart', payload: {startTime: 3}})} time={startTime} disabled={buttonDisabled}/>) 
             || (!lost && <LyricsGame text={state.guessedWord} 
@@ -90,7 +90,9 @@ const LyricsGuesserPresenter = () => {
                                     loading={loading}
                                     currentScore={currentScore}
                                     gameTime={gameTime}
-                                    formDisabled={formDisabled}/>)
+                                    formDisabled={formDisabled}
+                                    score={newPoints}
+            />)
                                     
             || <LyricsEnd disabled={buttonDisabled} score={currentScore} navigate={navigate} restartGame={() => dispatch({type: 'loadRestart', payload: {restartTime: 3}})} time={restartTime}/>}
         </div>

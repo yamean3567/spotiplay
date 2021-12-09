@@ -27,8 +27,10 @@ const getRandomLyrics = async (country, amount, page) => {
     console.log(tracks);
     let track_id = tracks[trackIndex].track.track_id
     let lyrics = await MusicMatch.getLyrics(track_id);
-    console.log(lyrics);
-    if(/[\u3400-\u9FBF]/.test(lyrics.lyrics_body)) {
+    //console.log(/[\u3400-\uff9f]/.test(lyrics.lyrics_body)); 
+
+    //Don't want japanese text, regex we had before /[\u3400-\u9FBF]/
+    if(/[\u3400-\uff9f]/.test(lyrics.lyrics_body)) {
         return getRandomLyrics(country,amount,page)
     }
     return {lyrics: lyrics.lyrics_body, 
@@ -45,7 +47,7 @@ const parseSentence = (lyrics) => {
     let tries = 0;
     while(true) {
         let random = getRandomNumber(sentences.length-2);
-        if(random == 0) continue;
+        if(random === 0) continue;
         words1 = sentences[random-1];
         words = sentences[random].split(" ");
         if(!(words.length < 3 || tries > 5)) {
