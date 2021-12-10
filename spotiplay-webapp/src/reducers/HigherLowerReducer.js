@@ -62,6 +62,7 @@ switch (action.type) {
             currentScore: action.payload.currentScore,
             buttonDisabled: false,
             formDisabled: false,
+            newPoints: action.payload.newPoints,
         }
     }
     case 'lostGame': {
@@ -69,6 +70,7 @@ switch (action.type) {
             ...state,
             lost: true,
             buttonDisabled: false,
+            beatHighscore: action.payload.beatHighscore,
         }
     }
     case 'restartGame': {
@@ -83,6 +85,7 @@ switch (action.type) {
             currentScore: 0,
             buttonDisabled: false,
             lost: false,
+            beatHighscore: false,
         }
 
     }
@@ -108,4 +111,6 @@ fetching: false,
 restartTime: -1,
 startTime: 0,
 startColor: "bg-green-800",
+newPoints: null,
+beatHighscore: false,
 }

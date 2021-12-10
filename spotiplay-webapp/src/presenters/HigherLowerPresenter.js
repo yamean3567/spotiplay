@@ -7,13 +7,17 @@ import HigherLowerGame from '../components/Games/HigherLower/HigherLowerGame';
 import HigherLowerEnd from '../components/Games/HigherLower/HigherLowerEnd';
 import { HigherLowerReducer, initialState } from '../reducers/HigherLowerReducer';
 import { getTwoTracks } from '../helpers/HigherLower'
+import AuthConsumer from '../contexts/auth';
+import { getScore, updateScore } from '../models/User';
+
+
 const HigherLowerPresenter = () => {
     const navigate = useNavigate();
     const [mounted, setMounted] = useState();
     const [state, dispatch] = useReducer(HigherLowerReducer, initialState);
     const {loading, track1, artist1, artist2, id1, id2, track2, started, buttonDisabled, 
-        formDisabled, currentScore, lost, restartTime, startTime, startColor} = state;
-
+        currentScore, lost, restartTime, startTime, startColor, newPoints, beatHighscore} = state;
+    const { currentUser } = AuthConsumer();
 
     const higher = async ( id1, id2) => {
         if(!mounted) return;
@@ -21,12 +25,14 @@ const HigherLowerPresenter = () => {
             //rätt
             // console.log("rätt")
             const {track1, id1, track2, id2} = await getTwoTracks(null, null);
-            setTimeout(() => dispatch({type: 'correctAnswer', payload: {currentScore: currentScore+1, 
+            let newPoints = currentScore+1;
+            setTimeout(() => dispatch({type: 'correctAnswer', payload: {currentScore: newPoints, newPoints: newPoints,
                 track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1, 
                 track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2}}), 500);
         } else {
             // console.log("fel")
-            setTimeout(() => dispatch({type: 'lostGame'}), 500)
+            lostGame();
+            //setTimeout(() => dispatch({type: 'lostGame'}), 500)
             //lite databas fetching, uppdatera highscore om nödvändigt etc
         }
     } 
@@ -38,15 +44,30 @@ const HigherLowerPresenter = () => {
             //rätt
             // console.log("rätt")
             const {track1, id1, track2, id2} = await getTwoTracks(null, null);
-            setTimeout(() => dispatch({type: 'correctAnswer', payload: { currentScore: currentScore+1, 
+            let newPoints = currentScore+1;
+            setTimeout(() => dispatch({type: 'correctAnswer', payload: { currentScore: newPoints, newPoints: newPoints,
                 track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
                 track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2}}),500);
         } else {
             // console.log("fel")
-            setTimeout(() => dispatch({type: 'lostGame'}), 500)
+            lostGame();
+            //setTimeout(() => dispatch({type: 'lostGame'}), 500)
             //lite databas fetching, uppdatera highscore om nödvändigt etc
         }
     } 
+
+    //lost game
+    const lostGame = async () => {
+        let prevScore = await getScore(currentUser.uid, "HL");
+        let beat = false;
+        if(prevScore < currentScore){
+            console.log(prevScore);
+            console.log(currentScore);
+            updateScore(currentUser.uid, currentScore, "HL");
+            beat = true;
+        } 
+        dispatch({type: 'lostGame', payload: {beatHighscore: beat}});
+    }
 
     //handlers for game start/end etc
 
@@ -58,7 +79,8 @@ const HigherLowerPresenter = () => {
         // console.log("track 2: ", track2);
         // console.log("track 2 name: ", track2.track.track_name);
         dispatch({type: 'restartGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1, 
-                                                 track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2}});
+                                                 track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
+                                                 newPoints: null}});
     }
     
     //Handler for starting game
@@ -68,7 +90,8 @@ const HigherLowerPresenter = () => {
          console.log("track 1: ", track1);
          console.log("track 2: ", track2);
         dispatch({type: 'startGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
-                                               track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2}});
+                                               track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
+                                               newPoints: null}});
     }
 
     //timers
@@ -104,19 +127,19 @@ const HigherLowerPresenter = () => {
             <TopBar title="Higher or Lower" navigate={navigate}/>
             {(!started && <HigherLowerStart color={startColor} startGame={() => dispatch({type: 'loadStart', payload: {startTime: 3}})} time={startTime} disabled={buttonDisabled}/>) 
             || (!lost && <HigherLowerGame 
-                                     track1={track1}
-                                     track2={track2}
-                                     artist1={artist1}
-                                     artist2={artist2}
+                                    track1={track1}
+                                    track2={track2}
+                                    artist1={artist1}
+                                    artist2={artist2}
                                     id1={id1}
                                     id2={id2}
                                     higher={higher}
                                     lower={lower}
                                     loading={loading}
                                     currentScore={currentScore}
-                                    formDisabled={formDisabled}/>)
+                                    score={newPoints}/>)
                                     
-            || <HigherLowerEnd disabled={buttonDisabled} score={currentScore} navigate={navigate} restartGame={() => dispatch({type: 'loadRestart', payload: {restartTime: 3}})} time={restartTime}/>}
+            || <HigherLowerEnd disabled={buttonDisabled} score={currentScore} beathighscore={beatHighscore} navigate={navigate} restartGame={() => dispatch({type: 'loadRestart', payload: {restartTime: 3}})} time={restartTime}/>}
         </div>
     )
 }
