@@ -65,8 +65,8 @@ const HigherLowerPresenter = () => {
     const startGame = async () => {
         const {track1, id1, track2, id2} = await getTwoTracks(null, null);
         // console.log("start");
-        // console.log("track 1: ", track1);
-        // console.log("track 2: ", track2);
+         console.log("track 1: ", track1);
+         console.log("track 2: ", track2);
         dispatch({type: 'startGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
                                                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2}});
     }
