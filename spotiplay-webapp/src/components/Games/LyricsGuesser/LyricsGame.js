@@ -3,11 +3,14 @@ import {FcAlarmClock} from 'react-icons/fc'
 
 const LyricsGame = (props) => {
     const [loading, setLoading] = useState(false);
+    const [mounted, setMounted] = useState(true);
     useEffect(() => {
+        if(!mounted) return;
         if(!props.score) return;
         setLoading(true)
         setTimeout(() => setLoading(false), 800);
-    }, [props.score])
+        return () => setMounted(false);
+    }, [props.score, mounted])
 
     return (
         <div className="flex min-h-screen bg-gradient-to-b from-black via-black to-green-900 text-gray-300 font-mono flex-col md:flex-row">
@@ -38,7 +41,7 @@ const LyricsGame = (props) => {
                                         onChange={!props.formDisabled ? e => props.setGuessedWord(e.target.value): ''}
                                     />
                                 </label>
-                    </form> : <div className="animate-bounce">Guessing..</div>}
+                    </form> : <div className="text-red-500 animate-bounce md:mt-5 md:mb-5">Guessing..</div>}
                     ~ Word: {props.data.word}
                     </div>
                 </div>

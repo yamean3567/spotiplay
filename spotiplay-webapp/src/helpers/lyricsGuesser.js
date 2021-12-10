@@ -24,12 +24,9 @@ const getRandomLyrics = async (country, amount, page) => {
         return getRandomLyrics(country, amount, page)
     }
     let trackIndex = getRandomNumber(tracks.length);
-    if(tracks[trackIndex].has_lyrics === 0) {
-        return getRandomLyrics(country, amount, page)
-    }
     let track_id = tracks[trackIndex].track.track_id
     let lyrics = await MusicMatch.getLyrics(track_id);
-    if(!lyrics || /[\u3400-\u9FBF]/.test(lyrics.lyrics_body)) {
+    if(!lyrics || lyrics.lyrics_body.length <= 1 || /[\u3400-\u9FBF]/.test(lyrics.lyrics_body) || /[\u3131-\uD79D]/.test(lyrics.lyrics_body)) {
         return getRandomLyrics(country,amount,page)
     }
     return {lyrics: lyrics.lyrics_body, 
@@ -43,6 +40,7 @@ const parseSentence = (lyrics) => {
     let sentences = lyrics.replace(/\\P{L}+/,"").split(/\n+/);        
     let words;     //-2 to remove copyright junk at the end
     let words1;
+    console.log(sentences);
     let tries = 0;
     while(true) {
         let random = getRandomNumber(sentences.length-2);

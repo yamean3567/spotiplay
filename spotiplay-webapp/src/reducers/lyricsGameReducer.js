@@ -98,6 +98,7 @@ export function lyricsGameReducer(state, action) {
                 lost: true,
                 formDisabled: false,
                 buttonDisabled: false,
+                beatHighscore: action.payload.beatHighscore,
             }
         }
         case 'restartGame': {
@@ -112,6 +113,7 @@ export function lyricsGameReducer(state, action) {
                 lost: false,
                 gameTime: action.payload.gameTime,
                 scoreTimer: action.payload.scoreTimer,
+                beatHighscore: false,
             }
 
         }
@@ -137,4 +139,5 @@ export const initialState = {
     gameTime: -10000,
     startColor: "bg-green-800",
     newPoints: null,
+    beatHighscore: false,
 }

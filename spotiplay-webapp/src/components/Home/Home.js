@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { updateRating } from '../../models/User';
 import AuthConsumer from '../../contexts/auth';
+import { BsMusicPlayer } from 'react-icons/bs'
 
 const Home = () => {
     const auth = AuthConsumer();
@@ -10,9 +10,12 @@ const Home = () => {
         auth.logOut();
         navigate("/");
     }
-
     return (
         <div className="h-screen flex flex-col justify-center items-center bg-white">
+            <BsMusicPlayer size={40}/>
+            <div className="text-center font-bold text-2xl">
+                Spotiplay
+            </div>
             <div className="w-1/3 bg-white shadow-md px-8 pt-6 pb-16 text-white">
             <div className="p-1 bg-green-800 rounded-lg m-3 text-center hover:bg-green-900 ">
                 <button className="font-bold py-3 rounded" onClick={() => navigate('/home/leaderboard')}>Leaderboard</button>

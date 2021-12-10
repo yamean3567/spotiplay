@@ -71,12 +71,7 @@ const HigherLowerPresenter = () => {
                                                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2}});
     }
 
-    const endGame = () => {
-        
-    }
-
-//timers
-
+    //timers
     //Start-game timer (count down for starting game)
     useEffect(() => {
         if(startTime === 0) return;

@@ -12,17 +12,17 @@ export const createUser = async (id, email) => {
     });
 }
 
-export const updateRating = async (id, rating) => {
+export const updateScore = async (id, score, type) => {
     const userDoc = doc(db, collectionName, id);
-    await updateDoc(userDoc, {rating: rating}); 
+    await updateDoc(userDoc, type === "LG" ? {LGScore: score} : {HLScore: score}); 
 }
 
-export const getRating = async (id) => {
+export const getScore = async (id, type) => {
     const docRef = doc(db, "users", id);
     const docSnap = await getDoc(docRef);
     console.log(docSnap);
     if(docSnap.exists()) {
-        return docSnap.data().rating;
+        return type === "LG" ? docSnap.data().LGScore : docSnap.data().HLScore;
     } else {
         console.log("err (no such doc)");
     }
