@@ -11,25 +11,17 @@ const Home = () => {
         navigate("/");
     }
     return (
-        <div className="h-screen flex flex-col justify-center items-center bg-white">
-            <BsMusicPlayer size={40}/>
-            <div className="text-center font-bold text-2xl">
+        <div className="h-screen flex flex-col justify-center items-center bg-black bg-gradient-to-t from-gray-900 to-black">
+            <BsMusicPlayer style={{color: 'white'}}size={40}/>
+            <div className="text-center font-bold text-white text-2xl">
                 Spotiplay
             </div>
-            <div className="w-1/3 bg-white shadow-md px-8 pt-6 pb-16 text-white">
-            <div className="p-1 bg-green-800 rounded-lg m-3 text-center hover:bg-green-900 ">
-                <button className="font-bold py-3 rounded" onClick={() => navigate('/home/leaderboard')}>Leaderboard</button>
+            <div className="w-1/3 bg-white px-8 grid pt-8 pb-8 text-white rounded-xl bg-gradient-to-t from-green-900 to-black-300">
+                <button className="font-bold py-3 bg-green-900 rounded hover:bg-black hover:text-yellow-500" onClick={() => navigate('/home/leaderboard')}>Leaderboard</button>
+                <button className="font-bold py-3 bg-green-800 mt-3 rounded hover:bg-black hover:text-green-500" onClick={() => navigate('/home/guessthelyrics')}>Guess the Lyrics</button>
+                <button className="font-bold py-3 bg-green-700 mt-3 rounded hover:bg-black hover:text-green-400" onClick={() => navigate('/home/higherlower')}>Higher or Lower</button>
             </div>
-            <div className="p-1 bg-green-700 rounded-lg m-3 text-center hover:bg-green-900">
-                <button className="font-bold py-3 rounded" onClick={() => navigate('/home/guessthelyrics')}>Guess the Lyrics</button>
-            </div>
-            <div className="p-1 bg-green-600 rounded-lg m-3 text-center hover:bg-green-900">
-                <button className="font-bold py-3 rounded" onClick={() => navigate('/home/higherlower')}>Higher or Lower</button>
-            </div>
-            </div>
-            <div className="float-right bg-white rounded-lg m-3">
-                {auth.currentUser !== null && <button className="font-bold py-3 rounded hover:text-green-700" onClick={() => handleLogout()} >Logout</button>}
-            </div>
+                {auth.currentUser !== null && <button className="font-bold bg-green-800 mt-3 p-2 rounded text-white hover:bg-red-700 hover:text-black" onClick={() => handleLogout()} >Logout</button>}
         </div>
     )
 }
