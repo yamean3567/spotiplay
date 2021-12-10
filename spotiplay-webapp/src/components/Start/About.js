@@ -3,15 +3,24 @@ const About = () => {
     let navigate = useNavigate();
 
     return (
-        <div>
-        <header>
-            <h1>ABOUT</h1>
-        </header>
-        <h5>
-            Music lover? Then you've found the right game!
-            Spotiplay is lalala...
-        </h5>
-        <button onClick={() => navigate('/')}>Back to login</button>
+        <div className="bg-black text-white min-h-screen font-mono italic ">
+            <button className="bg-green-900 rounded hover:bg-yellow-500 hover:text-black"onClick={() => navigate('/')}>Back to login</button>
+            <div className="absolute left-1/3 text-italic text-l text-green-800">
+                
+                <div className="mt-20">
+                Music lover? Then you've found the right place! <br/>
+                Spotiplay consists of two games where you, as a music <br/>
+                fanatic, get to practise and show of your true musical <br/>
+                knowledge!
+                </div>
+                <br/><br/>
+                This is a project made during the course DH2642<br/>
+                The developers of this project are:<br/>
+                > Mulle<br/>
+                > Mallan brallan<br/>
+                > Mayo<br/>
+                > Yartier<br/>
+            </div>
         </div>
     )
 }
