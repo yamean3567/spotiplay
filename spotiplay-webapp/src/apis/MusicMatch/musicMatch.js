@@ -27,7 +27,7 @@ export const MusicMatch = {
         }
     },
     getTopTracks(country, amount, page) {
-        return this.apiCall({type: 'chart.tracks', country: country, amount: amount, page: page});
+        return this.apiCall({type: 'chart.tracks', country: country, amount: amount, page: page, page_size: 100});
     },
     getTopArtists(country, amount, page) {
         return this.apiCall({type: 'chart.artists', country: country, amount: amount, page: page});

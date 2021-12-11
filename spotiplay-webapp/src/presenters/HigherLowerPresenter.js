@@ -6,7 +6,7 @@ import HigherLowerStart from '../components/Games/HigherLower/HigherLowerStart';
 import HigherLowerGame from '../components/Games/HigherLower/HigherLowerGame';
 import HigherLowerEnd from '../components/Games/HigherLower/HigherLowerEnd';
 import { HigherLowerReducer, initialState } from '../reducers/HigherLowerReducer';
-import { getTwoTracks } from '../helpers/HigherLower'
+import { getTracks, getTwoTracks } from '../helpers/HigherLower'
 import AuthConsumer from '../contexts/auth';
 import { getScore, updateScore } from '../models/User';
 
@@ -16,19 +16,20 @@ const HigherLowerPresenter = () => {
     const [mounted, setMounted] = useState();
     const [state, dispatch] = useReducer(HigherLowerReducer, initialState);
     const {loading, track1, artist1, artist2, id1, id2, track2, started, buttonDisabled, 
-        currentScore, lost, restartTime, startTime, startColor, newPoints, beatHighscore} = state;
+        currentScore, lost, restartTime, startTime, startColor, newPoints, beatHighscore, tracks} = state;
     const { currentUser } = AuthConsumer();
 
-    const higher = async ( id1, id2) => {
+    const higher = async (id1h, id2h, tracksh) => {
         if(!mounted) return;
-        if(id2 < id1) {
+        if(id2h < id1h) {
             //rätt
             // console.log("rätt")
-            const {track1, id1, track2, id2} = await getTwoTracks(null, null);
+            const {track1, id1, track2, id2, tracks} = await getTwoTracks(id1h, tracksh);
             let newPoints = currentScore+1;
             setTimeout(() => dispatch({type: 'correctAnswer', payload: {currentScore: newPoints, newPoints: newPoints,
                 track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1, 
-                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2}}), 500);
+                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
+                tracks: tracks}}), 500);
         } else {
             // console.log("fel")
             lostGame();
@@ -37,17 +38,18 @@ const HigherLowerPresenter = () => {
         }
     } 
 
-    const lower = async (id1, id2) => {
+    const lower = async (id1l, id2l, tracksl) => {
 
         if(!mounted) return;
-        if(id2 > id1) {
+        if(id2l > id1l) {
             //rätt
             // console.log("rätt")
-            const {track1, id1, track2, id2} = await getTwoTracks(null, null);
+            const {track1, id1, track2, id2, tracks} = await getTwoTracks(id2l, tracksl);
             let newPoints = currentScore+1;
             setTimeout(() => dispatch({type: 'correctAnswer', payload: { currentScore: newPoints, newPoints: newPoints,
                 track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
-                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2}}),500);
+                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
+                tracks: tracks}}),500);
         } else {
             // console.log("fel")
             lostGame();
@@ -73,25 +75,27 @@ const HigherLowerPresenter = () => {
 
     //Handler for restarting game
     const restartGame = async () => {
-        const {track1, id1, track2, id2} = await getTwoTracks(null, null);
+        const tracks = await getTracks();
+        const {track1, id1, track2, id2} = await getTwoTracks(null, tracks);
         // console.log("restart");
         // console.log("track 1: ", track1);   
         // console.log("track 2: ", track2);
         // console.log("track 2 name: ", track2.track.track_name);
         dispatch({type: 'restartGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1, 
                                                  track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
-                                                 newPoints: null}});
+                                                 newPoints: null, tracks:tracks}});
     }
     
     //Handler for starting game
     const startGame = async () => {
-        const {track1, id1, track2, id2} = await getTwoTracks(null, null);
+        const tracks = await getTracks();
+        const {track1, id1, track2, id2} = await getTwoTracks(null, tracks);
         // console.log("start");
          console.log("track 1: ", track1);
          console.log("track 2: ", track2);
         dispatch({type: 'startGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
                                                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
-                                               newPoints: null}});
+                                               newPoints: null, tracks:tracks}});
     }
 
     //timers
@@ -137,7 +141,8 @@ const HigherLowerPresenter = () => {
                                     lower={lower}
                                     loading={loading}
                                     currentScore={currentScore}
-                                    score={newPoints}/>)
+                                    score={newPoints}
+                                    tracks={tracks}/>)
                                     
             || <HigherLowerEnd disabled={buttonDisabled} score={currentScore} beathighscore={beatHighscore} navigate={navigate} restartGame={() => dispatch({type: 'loadRestart', payload: {restartTime: 3}})} time={restartTime}/>}
         </div>
