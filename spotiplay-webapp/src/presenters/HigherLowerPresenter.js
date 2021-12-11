@@ -127,7 +127,7 @@ const HigherLowerPresenter = () => {
     }, [])
 
     return (
-        <div>
+        <div className="h-screen overflow-visible md:h-screen md:overflow-hidden">
             <TopBar title="Higher or Lower" navigate={navigate}/>
             {(!started && <HigherLowerStart color={startColor} startGame={() => dispatch({type: 'loadStart', payload: {startTime: 3}})} time={startTime} disabled={buttonDisabled}/>) 
             || (!lost && <HigherLowerGame 
