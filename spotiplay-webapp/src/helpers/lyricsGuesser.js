@@ -40,7 +40,6 @@ const parseSentence = (lyrics) => {
     let sentences = lyrics.replace(/\\P{L}+/,"").split(/\n+/);        
     let words;     //-2 to remove copyright junk at the end
     let words1;
-    console.log(sentences);
     let tries = 0;
     while(true) {
         let random = getRandomNumber(sentences.length-2);

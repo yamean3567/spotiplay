@@ -63,8 +63,6 @@ const HigherLowerPresenter = () => {
         let prevScore = await getScore(currentUser.uid, "HL");
         let beat = false;
         if(prevScore < currentScore){
-            console.log(prevScore);
-            console.log(currentScore);
             updateScore(currentUser.uid, currentScore, "HL");
             beat = true;
         } 
@@ -91,8 +89,6 @@ const HigherLowerPresenter = () => {
         const tracks = await getTracks();
         const {track1, id1, track2, id2} = await getTwoTracks(null, tracks);
         // console.log("start");
-         console.log("track 1: ", track1);
-         console.log("track 2: ", track2);
         dispatch({type: 'startGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
                                                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
                                                newPoints: null, tracks:tracks}});

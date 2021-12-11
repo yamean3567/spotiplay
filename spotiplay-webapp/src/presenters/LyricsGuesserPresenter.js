@@ -39,8 +39,6 @@ const LyricsGuesserPresenter = () => {
         let prevScore = await getScore(currentUser.uid, "LG");
         let beat = false;
         if(prevScore < currentScore){
-            console.log(prevScore);
-            console.log(currentScore);
             updateScore(currentUser.uid, currentScore, "LG");
             beat = true;
         } 
