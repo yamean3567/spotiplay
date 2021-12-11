@@ -40,7 +40,6 @@ const RegisterPresenter = () => {
             dispatch({type: 'success'});
             navigate('/home');
         } catch(e) {
-            console.log(e.code);
             switch (e.code) {
                 case 'auth/missing-email':
                     dispatch({type: 'error', payload: {emailErr: 'Please enter your email'}})
