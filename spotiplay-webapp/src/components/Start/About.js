@@ -5,7 +5,7 @@ const About = () => {
     return (
         <div className="bg-black text-white min-h-screen font-mono italic ">
             <button className="bg-green-900 rounded hover:bg-yellow-500 hover:text-black"onClick={() => navigate('/')}>Back to login</button>
-            <div className="absolute left-1/3 text-italic text-l text-green-800">
+            <div className="absolute text-left text-sm px-3 md:left-1/3 text-italic text-green-800">
                 
                 <div className="mt-20">
                 Music lover? Then you've found the right place! <br/>

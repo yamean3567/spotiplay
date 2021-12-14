@@ -99,7 +99,7 @@ const LyricsGuesserPresenter = () => {
     }, [])
 
     return (
-        <div className="h-screen overflow-visible md:h-screen md:overflow-hidden">
+        <div className="h-screen overflow-hidden md:h-screen ">
             <TopBar title="Guess the Lyrics" navigate={navigate}/>
             {(!started && <LyricsStart color={startColor} startGame={() => dispatch({type: 'loadStart', payload: {startTime: 3}})} time={startTime} disabled={buttonDisabled}/>) 
             || (!lost && <LyricsGame text={state.guessedWord} 
