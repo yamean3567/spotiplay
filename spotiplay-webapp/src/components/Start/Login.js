@@ -27,17 +27,17 @@ const Login = (props) => {
                     </div>
                 </form>
                     <div className="flow-root">
-                        <button className="float-left bg-green-800 shadow rounded p-2 font-bold text-xs text-white hover:bg-green-900" onClick={() => props.navigation('/register')}>
+                        <button className="float-left bg-green-800 shadow rounded p-2 font-bold text-xs text-white hover:bg-black" onClick={() => props.navigation('/register')}>
                             New user?
                         </button>
-                        {props.loading ? <div className="mx-5 my-1"><BouncingBalls color="#000000" className="float-right font-bold rounded"/></div> : <button className="float-right bg-green-800 hover:bov-green-900 text-white text-xs font-bold py-2 px-4 rounded" 
+                        {props.loading ? <div className="mx-5 my-1"><BouncingBalls color="#000000" className="float-right font-bold rounded"/></div> : <button className="float-right bg-green-800 hover:bg-black text-white text-xs font-bold py-2 px-4 rounded" 
                                 disabled={props.loading}   
                                 onClick={() => {props.logIn()}}>
                             Sign in</button>}
                          
                     </div>
             </div>
-            <button className="p-2 text-xs bg-green-700 mt-4 rounded font-bold text-white hover:text-black hover:bg-green-900" onClick={() => props.navigation('/about')}>
+            <button className="p-2 text-xs bg-green-700 mt-4 rounded font-bold text-white hover:text-white hover:bg-yellow-500" onClick={() => props.navigation('/about')}>
                 About
             </button>
         </div>

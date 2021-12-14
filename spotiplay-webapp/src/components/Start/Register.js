@@ -3,15 +3,15 @@ import { BouncingBalls } from 'react-cssfx-loading/lib';
 
 const Register = (props) => {
     return (
-        <div className="h-screen flex flex-col justify-center items-center">
-            <BsMusicPlayer size={40}/>
-            <div className="w-1/3 bg-white shadow-md px-8 pt-6 pb-16">
-                <div className="mb-12 text-center font-bold text-2xl">
+        <div className="h-screen flex flex-col justify-center items-center bg-black bg-gradient-to-t from-gray-900 to-black">
+            <BsMusicPlayer style={{color:'white'}}size={40}/>
+            <div className="w-1/3 bg-white shadow-md px-8 pt-6 pb-16 rounded-xl pt-8 pb-8 rounded-xl bg-gradient-to-t from-green-900 to-black-300">
+                <div className="mb-12 text-center text-white font-bold text-2xl">
                     Register
                 </div>
                 <form onSubmit={(e) => {e.preventDefault(); props.createUser()}}>
                     <div className="mb-6">
-                        <label className="font-bold">
+                        <label className="text-white text-sm font-bold">
                         Email *
                         </label>
                         <p className="h-4 text-red-500 text-xs italic">{props.error.emailError}</p>
@@ -19,7 +19,7 @@ const Register = (props) => {
                         <input type="submit" hidden></input>
                     </div>
                     <div className="mb-6">
-                        <label className="font-bold">
+                        <label className="font-bold text-white text-sm">
                         Password *
                         </label>
                         <p className="h-4 text-red-500 text-xs italic">{props.error.passwordError}</p>
@@ -27,7 +27,7 @@ const Register = (props) => {
                         <input type="submit" hidden></input>
                     </div>
                     <div className="mb-6">
-                        <label className="font-bold">
+                        <label className="font-bold text-white text-sm">
                         Re-enter password *
                         </label>
                         <p className="h-4 text-red-500 text-xs italic"></p>
@@ -36,10 +36,10 @@ const Register = (props) => {
                     </div>
                 </form>
                     <div className="flow-root">
-                        <button className="float-left font-bold text-green-800 text-sm" onClick={() => props.navigation('/')}>
+                        <button className="float-left text-white font-bold hover:text-red-500 text-xs" onClick={() => props.navigation('/')}>
                             Already a member?
                         </button>
-                        {props.loading ? <div className="mx-5 my-1"><BouncingBalls color="#006400" className="float-right font-bold py-3 rounded"/></div> : <button className="float-right bg-green-800 hover:bg-green-900 text-white font-bold py-2 px-4 rounded" 
+                        {props.loading ? <div className="mx-5 my-1"><BouncingBalls color="#006400" className="float-right font-bold py-3 rounded"/></div> : <button className="float-right bg-green-800 hover:bg-black text-white text-xs font-bold py-2 px-4 rounded" 
                                 disabled={props.loading}   
                                 onClick={() => {props.createUser()}}>
                             Sign up</button>}
