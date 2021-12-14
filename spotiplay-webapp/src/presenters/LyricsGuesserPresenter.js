@@ -45,7 +45,6 @@ const LyricsGuesserPresenter = () => {
         dispatch({type: 'lostGame', payload: {beatHighscore: beat}});
     }
     
-    
     const restartGame = async () => {
         const {sentence, word, artist, track, album} = await getSentenceAndWord();
         dispatch({type: 'restartGame', payload: {sentence: sentence, word: word, gameTime: 10, artist: artist, track: track, album: album, scoreTimer: 10, newPoints: null}});
@@ -71,7 +70,7 @@ const LyricsGuesserPresenter = () => {
         if(restartTime === -1) return;
         if(restartTime === 0) restartGame();
         const intervalId = setInterval(() => {
-            dispatch({type: 'loadRestart', payload: {restartTime: restartTime - 1}});
+            dispatch({type: 'loadRestart', payload: {restartTime: restartTime - 1, newPoints: null}});
         }, 1000);
         return () => clearInterval(intervalId);
     }, [restartTime])

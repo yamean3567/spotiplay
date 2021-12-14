@@ -11,6 +11,7 @@ export function lyricsGameReducer(state, action) {
                 ...state,
                 buttonDisabled: true,
                 restartTime: action.payload.restartTime,
+                newPoints: action.payload.newPoints,
             };
         }
         case 'loadStart': {
