@@ -7,9 +7,12 @@ import DisplayLeaderboard from "../components/Games/Leaderboard/Leaderboard"
 const LeaderboardPresenter = () =>{
     const [leadersLG, setLeadersLG] = useState([]);
     const [leadersHL, setLeadersHL] = useState([]);
+    const [loading, setLoading] = useState(true);
+
     const navigate = useNavigate();
 
     const updateLeaders = async () => {
+        setLoading(true);
         let LG = await getTopLGScore(10);
         let HL = await getTopHLScore(10);
         let arr1 = [];
@@ -20,9 +23,9 @@ const LeaderboardPresenter = () =>{
         HL.forEach(function(doc) {
             arr2.push({...doc.data()})
         });
-
         setLeadersLG(arr1);
         setLeadersHL(arr2);
+        setLoading(false);
     }
 
     useEffect(() => {
@@ -32,10 +35,14 @@ const LeaderboardPresenter = () =>{
     return (
         <div className="min-h-screen flex flex-col bg-gradient-to-t from-gray-900 to-black">
             <TopBar title="Leaderboard" navigate={navigate}/>
+            {loading ? <div className="grid place-items-center h-screen"><img alt="gif" src="http://www.csc.kth.se/~cristi/loading.gif"/></div>
+            :
             <DisplayLeaderboard 
                 leadersLG={leadersLG} 
                 leadersHL={leadersHL}
+                loading={loading}
             />
+            }
         </div>
     );
 };
