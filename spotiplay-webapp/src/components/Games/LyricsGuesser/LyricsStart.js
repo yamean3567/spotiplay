@@ -3,7 +3,7 @@ import React from 'react'
 const LyricsStart = (props) => {
     let background = props.disabled ? "" : " hover:bg-green-900"
     return (
-        <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-t from-gray-900 to-black">
+        <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-t from-gray-900 to-black text-xs md:text-base">
             <div className="grid place-items-center">
                     <button className={props.color + background + " font-mono text-white font-bold py-4 px-10 rounded"} disabled={props.disabled} onClick={() => props.startGame()}>{!props.disabled ? "START" : "Starting in " + props.time}</button>
                 <span className="decoration-clone shadow p-2 rounded text-gray-300 block"> 

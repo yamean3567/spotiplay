@@ -4,8 +4,8 @@ const Login = (props) => {
     return (
         <div className="h-screen flex flex-col justify-center items-center bg-black bg-gradient-to-t from-gray-900 to-black">
             <BsMusicPlayer style={{color:'white'}}size={40}/>
-            <div className="w-1/3 bg-white shadow-md px-8 pt-6 pb-16 rounded-xl pt-8 pb-8 rounded-xl bg-gradient-to-t from-green-900 to-black-300">
-                <div className="mb-12 text-center text-white font-bold text-2xl">
+            <div className="bg-white shadow-md px-8 pt-6 pb-16 rounded-xl pt-8 pb-8 rounded-xl bg-gradient-to-t from-green-900 to-black-300 md:w-1/3">
+                <div className="mb-1 text-center text-white font-bold text-2xl md:mb-12">
                     Spotiplay
                 </div>
                 <form onSubmit={(e) => {e.preventDefault(); props.logIn()}}>
