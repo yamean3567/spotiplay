@@ -5,7 +5,7 @@ const TopBar = (props) => {
         <div className = "font-mono bg-black text-gray-300">
             <div>{props.title}</div>
             <div>
-                <button onClick={() => props.navigate("/home")}>Back</button>
+                <button className="hover:text-red-500" onClick={() => props.navigate("/home")}>Back</button>
             </div>
 
         </div>

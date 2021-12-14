@@ -9,7 +9,7 @@ const HigherLowerStart = (props) => {
         </div>
         <div className="text-gray-300 font-mono">
             <br/>
-        Guess which song is higher or lower on the US top 100!</div>
+        Guess which song is higher or lower on the US top 50!</div>
     </div>)
 }
 

@@ -48,6 +48,7 @@ switch (action.type) {
             track2: action.payload.track2,
             artist2: action.payload.artist2,
             id2: action.payload.id2,
+            tracks: action.payload.tracks,
         };
     }
     case 'correctAnswer': {
@@ -63,6 +64,7 @@ switch (action.type) {
             buttonDisabled: false,
             formDisabled: false,
             newPoints: action.payload.newPoints,
+            tracks: action.payload.tracks,
         }
     }
     case 'lostGame': {
@@ -86,6 +88,7 @@ switch (action.type) {
             buttonDisabled: false,
             lost: false,
             beatHighscore: false,
+            tracks: action.payload.tracks,
         }
 
     }
@@ -113,4 +116,5 @@ startTime: 0,
 startColor: "bg-green-800",
 newPoints: null,
 beatHighscore: false,
+tracks: null,
 }

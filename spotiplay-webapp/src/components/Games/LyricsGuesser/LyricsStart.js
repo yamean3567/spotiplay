@@ -2,7 +2,6 @@ import React from 'react'
 
 const LyricsStart = (props) => {
     let background = props.disabled ? "" : " hover:bg-green-900"
-
     return (
         <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-t from-gray-900 to-black text-xs md:text-base">
             <div className="grid place-items-center">
@@ -19,7 +18,6 @@ const LyricsStart = (props) => {
                         > Wrong answer -3 seconds<br/>
                         > Right answer +5 seconds<br/>
                         > Faster answer = More points
-                         
                     </div>
                 </div>
                 </div>

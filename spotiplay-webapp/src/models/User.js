@@ -20,7 +20,6 @@ export const updateScore = async (id, score, type) => {
 export const getScore = async (id, type) => {
     const docRef = doc(db, "users", id);
     const docSnap = await getDoc(docRef);
-    console.log(docSnap);
     if(docSnap.exists()) {
         return type === "LG" ? docSnap.data().LGScore : docSnap.data().HLScore;
     } else {
