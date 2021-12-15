@@ -1,16 +1,16 @@
 export function HigherLowerReducer(state, action) {
 switch (action.type) {
-    case 'disableForm': {
+    case 'disableButtons': {
         return {
             ...state,
-            formDisabled: true,
+            loading: true,
         }
     }
     case 'loadRestart': {
         return {
             ...state,
-            buttonDisabled: true,
             restartTime: action.payload.restartTime,
+            loading:false,
         };
     }
     case 'loadStart': {
@@ -33,6 +33,7 @@ switch (action.type) {
             buttonDisabled: true,
             startTime: action.payload.startTime,
             startColor: color,
+            loading: false,
         }
     }
     case 'startGame': {
@@ -65,13 +66,14 @@ switch (action.type) {
             formDisabled: false,
             newPoints: action.payload.newPoints,
             tracks: action.payload.tracks,
+            loading: action.payload.loading,
         }
     }
     case 'lostGame': {
         return {
             ...state,
             lost: true,
-            buttonDisabled: false,
+            loading: false,
             beatHighscore: action.payload.beatHighscore,
         }
     }
@@ -89,6 +91,7 @@ switch (action.type) {
             lost: false,
             beatHighscore: false,
             tracks: action.payload.tracks,
+            loading: false,
         }
 
     }
@@ -99,7 +102,7 @@ return state;
 }
 
 export const initialState = {
-loading: true,
+loading: false,
 track1:  null,
 artist1: null,
 id1: null,
