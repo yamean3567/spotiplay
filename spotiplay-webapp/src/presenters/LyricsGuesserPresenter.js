@@ -45,7 +45,6 @@ const LyricsGuesserPresenter = () => {
         dispatch({type: 'lostGame', payload: {beatHighscore: beat}});
     }
     
-    
     const restartGame = async () => {
         const {sentence, word, artist, track, album} = await getSentenceAndWord();
         dispatch({type: 'restartGame', payload: {sentence: sentence, word: word, gameTime: 10, artist: artist, track: track, album: album, scoreTimer: 10, newPoints: null}});
@@ -71,7 +70,7 @@ const LyricsGuesserPresenter = () => {
         if(restartTime === -1) return;
         if(restartTime === 0) restartGame();
         const intervalId = setInterval(() => {
-            dispatch({type: 'loadRestart', payload: {restartTime: restartTime - 1}});
+            dispatch({type: 'loadRestart', payload: {restartTime: restartTime - 1, newPoints: null}});
         }, 1000);
         return () => clearInterval(intervalId);
     }, [restartTime])
@@ -97,7 +96,7 @@ const LyricsGuesserPresenter = () => {
     }, [])
 
     return (
-        <div className="h-screen overflow-visible md:h-screen md:overflow-hidden">
+        <div className="h-screen overflow-hidden md:h-screen ">
             <TopBar title="Guess the Lyrics" navigate={navigate}/>
             {(!started && <LyricsStart color={startColor} startGame={() => dispatch({type: 'loadStart', payload: {startTime: 3}})} time={startTime} disabled={buttonDisabled}/>) 
             || (!lost && <LyricsGame text={state.guessedWord} 
