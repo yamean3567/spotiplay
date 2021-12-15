@@ -4,6 +4,7 @@ export function lyricsGameReducer(state, action) {
             return {
                 ...state,
                 formDisabled: true,
+                loadingMsg: action.payload.loadingMsg,
             }
         }
         case 'loadRestart': {
@@ -13,6 +14,27 @@ export function lyricsGameReducer(state, action) {
                 restartTime: action.payload.restartTime,
                 newPoints: action.payload.newPoints,
             };
+        }
+        case 'skipTrack' : {
+            return {
+                ...state,
+                formDisabled: false,
+                scoreTimer: action.payload.scoreTimer,
+                currentScore: action.payload.currentScore,
+                loadingMsg: action.payload.loadingMsg,
+                newPoints: action.payload.newPoints,
+                scoreColor: "mb-4 decoration-clone mx-auto bg-gradient-to-b from-red-900 via-red-600 to-red-300 animate-pulse text-center border-2 rounded-lg border-black text-sm w-24 h-16 md:h-24 md:text-2xl py-2 md:w-36", 
+            }
+        }
+        case 'setTrack': {
+            return {
+                ...state,
+                track: action.payload.track,
+                artist: action.payload.artist,
+                album: action.payload.album,
+                word: action.payload.word,
+                sentence: action.payload.sentence,
+            }
         }
         case 'loadStart': {
             let color = "";
@@ -43,12 +65,7 @@ export function lyricsGameReducer(state, action) {
                 loading: false,
                 buttonDisabled: false,
                 formDisabled: false,
-                sentence: action.payload.sentence,
-                word: action.payload.word,
                 gameTime: action.payload.gameTime,
-                artist: action.payload.artist,
-                track: action.payload.track,
-                album: action.payload.album,
                 scoreTimer: action.payload.scoreTimer,
             };
         }
@@ -69,18 +86,14 @@ export function lyricsGameReducer(state, action) {
         case 'correctAnswer': {
             return {
                 ...state, 
-                sentence: action.payload.sentence,
-                word: action.payload.word,
-                currentScore: action.payload.currentScore,
-                guessedWord: '',
                 buttonDisabled: false,
                 formDisabled: false,
+                guessedWord: '',
+                currentScore: action.payload.currentScore,
                 gameTime: action.payload.gameTime,
-                artist: action.payload.artist,
-                track: action.payload.track,
-                album: action.payload.album,
                 scoreTimer: action.payload.scoreTimer,
                 newPoints: action.payload.newPoints,
+                scoreColor: "mb-4 decoration-clone mx-auto bg-gradient-to-b from-green-900 via-green-800 to-green-400 animate-pulse text-center border-2 rounded-lg border-black text-sm w-24 h-16 md:h-24 md:text-2xl py-2 md:w-36"
             }
         }
         case 'wrongAnswer': {
@@ -105,16 +118,14 @@ export function lyricsGameReducer(state, action) {
         case 'restartGame': {
             return {
                 ...state,
-                sentence: action.payload.sentence,
-                word: action.payload.word,
-                guessedWord: '',
-                currentScore: 0,
+                beatHighscore: false,
                 buttonDisabled: false,
                 formDisabled: false,
                 lost: false,
+                guessedWord: '',
+                currentScore: 0,
                 gameTime: action.payload.gameTime,
                 scoreTimer: action.payload.scoreTimer,
-                beatHighscore: false,
             }
 
         }
@@ -141,4 +152,5 @@ export const initialState = {
     startColor: "bg-green-800",
     newPoints: null,
     beatHighscore: false,
+    loadingMsg: '',
 }

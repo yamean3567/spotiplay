@@ -54,7 +54,7 @@ const parseSentence = (lyrics) => {
     return {helpsentence: words1, words: words}
 }
 
-const specialCharacters = ["(", ")", "[", "]", "!", "?", ".", ",", "-"];
+const specialCharacters = ["(", ")", "[", "]", "!", "?", ".", ",", "-", "\""];
 const parseWord = (word) => {
     if(word.length <= 1) return {word1: word, word2: word};
     word = word.split("");
