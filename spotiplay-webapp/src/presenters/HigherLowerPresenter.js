@@ -23,7 +23,6 @@ const HigherLowerPresenter = () => {
         if(!mounted) return;
         if(id2h < id1h) {
             //rätt
-            // console.log("rätt")
             const {track1, id1, track2, id2, tracks} = await getTwoTracks(id1h, tracksh);
             let newPoints = currentScore+1;
             setTimeout(() => dispatch({type: 'correctAnswer', payload: {currentScore: newPoints, newPoints: newPoints,
@@ -31,10 +30,8 @@ const HigherLowerPresenter = () => {
                 track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
                 tracks: tracks}}), 500);
         } else {
-            // console.log("fel")
+            // fel
             lostGame();
-            //setTimeout(() => dispatch({type: 'lostGame'}), 500)
-            //lite databas fetching, uppdatera highscore om nödvändigt etc
         }
     } 
 
@@ -43,7 +40,6 @@ const HigherLowerPresenter = () => {
         if(!mounted) return;
         if(id2l > id1l) {
             //rätt
-            // console.log("rätt")
             const {track1, id1, track2, id2, tracks} = await getTwoTracks(id2l, tracksl);
             let newPoints = currentScore+1;
             setTimeout(() => dispatch({type: 'correctAnswer', payload: { currentScore: newPoints, newPoints: newPoints,
@@ -51,10 +47,7 @@ const HigherLowerPresenter = () => {
                 track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
                 tracks: tracks}}),500);
         } else {
-            // console.log("fel")
             lostGame();
-            //setTimeout(() => dispatch({type: 'lostGame'}), 500)
-            //lite databas fetching, uppdatera highscore om nödvändigt etc
         }
     } 
 
@@ -75,10 +68,7 @@ const HigherLowerPresenter = () => {
     const restartGame = async () => {
         const tracks = await getTracks();
         const {track1, id1, track2, id2} = await getTwoTracks(null, tracks);
-        // console.log("restart");
-        // console.log("track 1: ", track1);   
-        // console.log("track 2: ", track2);
-        // console.log("track 2 name: ", track2.track.track_name);
+
         dispatch({type: 'restartGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1, 
                                                  track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
                                                  newPoints: null, tracks:tracks}});
@@ -88,7 +78,7 @@ const HigherLowerPresenter = () => {
     const startGame = async () => {
         const tracks = await getTracks();
         const {track1, id1, track2, id2} = await getTwoTracks(null, tracks);
-        // console.log("start");
+
         dispatch({type: 'startGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
                                                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
                                                newPoints: null, tracks:tracks}});
@@ -112,7 +102,6 @@ const HigherLowerPresenter = () => {
         const intervalId = setInterval(() => {
             dispatch({type: 'loadRestart', payload: {restartTime: restartTime - 1}});
         }, 1000);
-        // console.log("mors");
         return () => clearInterval(intervalId);
     }, [restartTime])
 
