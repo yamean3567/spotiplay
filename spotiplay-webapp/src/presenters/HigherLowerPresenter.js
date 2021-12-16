@@ -88,7 +88,6 @@ const HigherLowerPresenter = () => {
     const startGame = async () => {
         setLoading(true);
         const tracks = await getTracks();
-        console.log(tracks);
         const {track1, id1, track2, id2} = await getTwoTracks(null, tracks);
         dispatch({type: 'startGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
                                                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
