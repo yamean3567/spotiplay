@@ -15,7 +15,7 @@ const HigherLowerPresenter = () => {
     const navigate = useNavigate();
     const [mounted, setMounted] = useState();
     const [state, dispatch] = useReducer(HigherLowerReducer, initialState);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const {track1, artist1, artist2, id1, id2, track2, started, buttonDisabled, 
         currentScore, lost, restartTime, startTime, startColor, newPoints, beatHighscore, tracks} = state;
     const { currentUser } = AuthConsumer();
@@ -27,11 +27,14 @@ const HigherLowerPresenter = () => {
             setLoading(true);
             const {track1, id1, track2, id2, tracks} = await getTwoTracks(id1h, tracksh);
             let newPoints = currentScore+1;
-            setLoading(false);
-            setTimeout(() => dispatch({type: 'correctAnswer', payload: {currentScore: newPoints, newPoints: newPoints,
+            
+            setTimeout(() => {
+                dispatch({type: 'correctAnswer', payload: {currentScore: newPoints, newPoints: newPoints,
                 track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1, 
                 track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
-                tracks: tracks, loading:loading}}), 500);
+                tracks: tracks, loading:loading}})
+                setLoading(false);
+            }, 500);
         } else {
             // fel
             lostGame();
@@ -39,18 +42,20 @@ const HigherLowerPresenter = () => {
     } 
 
     const lower = async (id1l, id2l, tracksl) => {
-
         if(!mounted) return;
         if(id2l > id1l) {
             //rätt
             setLoading(true);
             const {track1, id1, track2, id2, tracks} = await getTwoTracks(id2l, tracksl);
             let newPoints = currentScore+1;
-            setLoading(false);
-            setTimeout(() => dispatch({type: 'correctAnswer', payload: { currentScore: newPoints, newPoints: newPoints,
+           
+            setTimeout(() => {
+                dispatch({type: 'correctAnswer', payload: { currentScore: newPoints, newPoints: newPoints,
                 track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
                 track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
-                tracks: tracks, loading:loading}}),500);
+                tracks: tracks, loading:loading}})
+                setLoading(false);
+            }, 500);
         } else {
             lostGame();
         }
@@ -72,12 +77,11 @@ const HigherLowerPresenter = () => {
     //Handler for restarting game
     const restartGame = async () => {
         setLoading(true);
-        console.log(tracks);
         const {track1, id1, track2, id2} = await getTwoTracks(null, tracks);
-        setLoading(false);
         dispatch({type: 'restartGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1, 
                                                  track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
                                                  newPoints: null, tracks:tracks, loading:loading}});
+        setLoading(false);
     }
     
     //Handler for starting game
@@ -86,10 +90,10 @@ const HigherLowerPresenter = () => {
         const tracks = await getTracks();
         console.log(tracks);
         const {track1, id1, track2, id2} = await getTwoTracks(null, tracks);
-        setLoading(false);
         dispatch({type: 'startGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
                                                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
                                                newPoints: null, tracks:tracks, loading:loading}});
+        setLoading(false);
     }
 
     //timers
@@ -101,6 +105,7 @@ const HigherLowerPresenter = () => {
             dispatch({type: 'loadStart', payload: {startTime: startTime - 1}});
         }, 1000);
         return () => clearInterval(intervalId);
+        //eslint-disable-next-line
     },[startTime])
 
     //Restart-game timer (count down for restarting game)
@@ -111,6 +116,7 @@ const HigherLowerPresenter = () => {
             dispatch({type: 'loadRestart', payload: {restartTime: restartTime - 1}});
         }, 1000);
         return () => clearInterval(intervalId);
+        //eslint-disable-next-line
     }, [restartTime])
 
     //Clean up
