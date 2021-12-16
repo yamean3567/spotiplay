@@ -15,7 +15,7 @@ const HigherLowerPresenter = () => {
     const navigate = useNavigate();
     const [mounted, setMounted] = useState();
     const [state, dispatch] = useReducer(HigherLowerReducer, initialState);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState('disable');
     const {track1, artist1, artist2, id1, id2, track2, started, buttonDisabled, 
         currentScore, lost, restartTime, startTime, startColor, newPoints, beatHighscore, tracks} = state;
     const { currentUser } = AuthConsumer();
