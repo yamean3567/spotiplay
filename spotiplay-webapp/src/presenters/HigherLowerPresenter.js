@@ -31,7 +31,7 @@ const HigherLowerPresenter = () => {
             setTimeout(() => dispatch({type: 'correctAnswer', payload: {currentScore: newPoints, newPoints: newPoints,
                 track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1, 
                 track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
-                tracks: tracks}}), 500);
+                tracks: tracks, loading:loading}}), 500);
         } else {
             // fel
             lostGame();
@@ -50,7 +50,7 @@ const HigherLowerPresenter = () => {
             setTimeout(() => dispatch({type: 'correctAnswer', payload: { currentScore: newPoints, newPoints: newPoints,
                 track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
                 track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
-                tracks: tracks}}),500);
+                tracks: tracks, loading:loading}}),500);
         } else {
             lostGame();
         }

@@ -65,6 +65,7 @@ switch (action.type) {
             formDisabled: false,
             newPoints: action.payload.newPoints,
             tracks: action.payload.tracks,
+            loading: action.payload.loading,
         }
     }
     case 'lostGame': {
@@ -89,6 +90,7 @@ switch (action.type) {
             lost: false,
             beatHighscore: false,
             tracks: action.payload.tracks,
+            loading: false,
         }
 
     }
