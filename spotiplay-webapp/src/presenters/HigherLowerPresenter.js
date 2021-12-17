@@ -16,7 +16,7 @@ const HigherLowerPresenter = () => {
     const [mounted, setMounted] = useState();
     const [state, dispatch] = useReducer(HigherLowerReducer, initialState);
     const [loading, setLoading] = useState(false);
-    const {track1, artist1, artist2, id1, id2, track2, started, buttonDisabled, 
+    const {track1, artist1, artist2, id1, id2, track2, started, buttonDisabled, restartbuttonDisabled,
         currentScore, lost, restartTime, startTime, startColor, newPoints, beatHighscore, tracks} = state;
     const { currentUser } = AuthConsumer();
 
@@ -142,7 +142,7 @@ const HigherLowerPresenter = () => {
                                     score={newPoints}
                                     tracks={tracks}/>)
                                     
-            || <HigherLowerEnd disabled={buttonDisabled} score={currentScore} beathighscore={beatHighscore} navigate={navigate} restartGame={() => dispatch({type: 'loadRestart', payload: {restartTime: 3}})} time={restartTime}/>}
+            || <HigherLowerEnd disabled={restartbuttonDisabled} score={currentScore} beathighscore={beatHighscore} navigate={navigate} restartGame={() => dispatch({type: 'loadRestart', payload: {restartTime: 3}})} time={restartTime}/>}
         </div>
     )
 }

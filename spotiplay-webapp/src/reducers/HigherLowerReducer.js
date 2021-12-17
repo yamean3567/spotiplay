@@ -9,7 +9,7 @@ switch (action.type) {
     case 'loadRestart': {
         return {
             ...state,
-            buttonDisabled: true,
+            restartbuttonDisabled: true,
             restartTime: action.payload.restartTime,
         };
     }
@@ -72,7 +72,7 @@ switch (action.type) {
         return {
             ...state,
             lost: true,
-            buttonDisabled: false,
+            restartbuttonDisabled: false,
             beatHighscore: action.payload.beatHighscore,
         }
     }
@@ -86,7 +86,7 @@ switch (action.type) {
             artist2: action.payload.artist2,
             id2: action.payload.id2,
             currentScore: 0,
-            buttonDisabled: false,
+            restartbuttonDisabled: false,
             lost: false,
             beatHighscore: false,
             tracks: action.payload.tracks,
@@ -110,6 +110,7 @@ artist2: null,
 id2: null,
 started: false,
 buttonDisabled: false,
+restartbuttonDisabled: false,
 currentScore: 0,
 lost: false,
 fetching: false,
