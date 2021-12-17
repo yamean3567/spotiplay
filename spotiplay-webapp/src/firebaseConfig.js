@@ -9,7 +9,7 @@ const firebaseConfig = {
     storageBucket: "spotiplay-36879.appspot.com",
     messagingSenderId: "764218555436",
     appId: "1:764218555436:web:5e427cfe6181c3e60ae589"
-  };
+};
 
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);

@@ -35,7 +35,7 @@ const LeaderboardPresenter = () =>{
     return (
         <div className="min-h-screen flex flex-col bg-gradient-to-t from-gray-900 to-black">
             <TopBar title="Leaderboard" navigate={navigate}/>
-            {loading ? <div className="grid place-items-center h-screen"><img alt="gif" src="http://www.csc.kth.se/~cristi/loading.gif"/></div>
+            {loading ? <div className="grid place-items-center h-screen"><img alt="gif" src="//www.csc.kth.se/~cristi/loading.gif"/></div>
             :
             <DisplayLeaderboard 
                 leadersLG={leadersLG} 
