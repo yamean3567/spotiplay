@@ -10,7 +10,6 @@ import RequireNoAuth from './components/Auth/RequireNoAuth';
 import { AuthProvider } from './contexts/auth';
 import LyricsGuesserPresenter from './presenters/LyricsGuesserPresenter';
 import HigherLowerPresenter from './presenters/HigherLowerPresenter';
-import TopPresenter from './presenters/TopPresenter';
 import LeaderboardPresenter from './presenters/LeaderboardPresenter';
 
 function App() {
@@ -47,11 +46,6 @@ function App() {
           <Route path="/home/higherlower" element={
             <RequireAuth>
               <HigherLowerPresenter />
-            </RequireAuth>
-          }/>
-          <Route path="/home/top" element={
-            <RequireAuth>
-              <TopPresenter />
             </RequireAuth>
           }/>
           <Route path="/home/leaderboard" element={

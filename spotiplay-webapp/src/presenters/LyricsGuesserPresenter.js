@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import { getSentenceAndWord } from '../helpers/lyricsGuesser'
 import { useNavigate } from 'react-router'
 import TopBar from '../components/Games/TopBar';
@@ -12,6 +12,7 @@ import { getScore, updateScore } from '../models/User';
 const LyricsGuesserPresenter = () => {
     const navigate = useNavigate();
     const [state, dispatch] = useReducer(lyricsGameReducer, initialState);
+    const [mounted, setMounted] = useState(true);
     const { sentence, word, guessedWord, started, buttonDisabled, 
             formDisabled, currentScore, lost, restartTime, startTime, gameTime,
             startColor, artist, track, album, scoreTimer, newPoints,
@@ -36,7 +37,7 @@ const LyricsGuesserPresenter = () => {
         }
     }
 
-    //Handler for skipping
+    //Handler for skipping track
     const skipTrack = async () => {
         dispatch({type: 'disableForm', payload: {loadingMsg: 'Skipping..'}});
         if(currentScore < 400) {
@@ -75,29 +76,29 @@ const LyricsGuesserPresenter = () => {
         dispatch({type: 'startGame', payload: {gameTime: 10, scoreTimer: 10, newPoints: null}});
     }
 
-    //START-GAME
+    //START-GAME timer
     useEffect(() => {
-        if(startTime === 0) return;
+        if(startTime === 0 || !mounted) return;
         if(startTime === 1) setTimeout(() => startGame(), 500); 
         const intervalId = setInterval(() => {
             dispatch({type: 'loadStart', payload: {startTime: startTime - 1}});
         }, 1000);
         return () => clearInterval(intervalId);
-    }, [startTime])
+    }, [startTime, mounted])
 
-    //RESTART-GAME
+    //RESTART-GAME timer
     useEffect(() => {
-        if(restartTime === -1) return;
+        if(restartTime === -1 || !mounted) return;
         if(restartTime === 0) {restartGame();}
         const intervalId = setInterval(() => {
             dispatch({type: 'loadRestart', payload: {restartTime: restartTime - 1, newPoints: null}});
         }, 1000);
         return () => clearInterval(intervalId);
-    }, [restartTime])
+    }, [restartTime, mounted])
 
-    //GAME TIMER
+    //GAME timer
     useEffect(() => {
-        if(gameTime === -10000)  return;
+        if(gameTime === -10000 || !mounted)  return;
         if(gameTime <= 0) lostGame();
         const intervalId = setInterval(() => {
             if(gameTime <= 0) {
@@ -107,7 +108,12 @@ const LyricsGuesserPresenter = () => {
         }, 1000);
         return () => clearInterval(intervalId);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [gameTime, scoreTimer])
+    }, [gameTime, scoreTimer, mounted])
+
+    //cleanup
+    useEffect(() => {
+        return () => setMounted(false);
+    }, [])
 
     return (
         <div className="h-screen overflow-hidden md:h-screen ">

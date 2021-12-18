@@ -39,31 +39,13 @@ const Register = (props) => {
                         <button className="float-left text-white font-bold hover:text-red-500 text-xs" onClick={() => props.navigation('/')}>
                             Already a member?
                         </button>
-                        {props.loading ? <div className="mx-5 my-1"><BouncingBalls color="#006400" className="float-right font-bold py-3 rounded"/></div> : <button className="float-right bg-green-800 hover:bg-black text-white text-xs font-bold py-2 px-4 rounded" 
+                        {props.loading ? <div className="mx-5 my-1"><BouncingBalls color="#000000" className="float-right font-bold py-3 rounded"/></div> : <button className="float-right bg-green-800 hover:bg-black text-white text-xs font-bold py-2 px-4 rounded" 
                                 disabled={props.loading}   
                                 onClick={() => {props.createUser()}}>
                             Sign up</button>}
                     </div>
             </div>
         </div>
-        /*
-        <div>
-            <header>
-                <b>REGISTER</b>
-            </header>
-            <input placeholder="Email..." onChange={(e) => setEmail(e.target.value)}/>
-            <input placeholder="Password..." onChange={(e) => setPassword(e.target.value)}/>
-            <button disabled={props.loading} onClick={() => {
-                props.createUser(email, password)}
-                }>Create account</button>
-            <div>
-                <button onClick={() => navigate('/')}>Back to login</button>
-            </div>
-            <div>
-                {props.error}
-            </div>
-        </div>
-        */
     )
 }
 
