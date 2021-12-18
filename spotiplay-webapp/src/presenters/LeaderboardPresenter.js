@@ -8,6 +8,7 @@ const LeaderboardPresenter = () =>{
     const [leadersLG, setLeadersLG] = useState([]);
     const [leadersHL, setLeadersHL] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [mounted, setMounted] = useState(true);
 
     const navigate = useNavigate();
 
@@ -29,8 +30,11 @@ const LeaderboardPresenter = () =>{
     }
 
     useEffect(() => {
-        updateLeaders();
-    }, []);
+        if(mounted) {
+            updateLeaders();
+        }
+        return () => setMounted(false);
+    }, [mounted]);
 
     return (
         <div className="min-h-screen flex flex-col bg-gradient-to-t from-gray-900 to-black">
