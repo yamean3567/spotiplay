@@ -10,6 +10,7 @@ const HigherLowerStart = (props) => {
         <div className="text-gray-300 font-mono">
             <br/>
         Guess which song is higher or lower on the US top 50!</div>
+        <img className="md:fixed md:bottom-0 md:h-1/3" alt="2pac" src="../pngaaa.com-16896.png"/>
     </div>)
 }
 

@@ -36,8 +36,8 @@ const DisplayLeaderboard = (props) => {
                 <li className={activeTab === "Tab 1" ? "py-2 px-6 bg-green-400 rounded-t-lg text-black" : "py-2 px-6 bg-white rounded-t-lg text-gray-500 bg-gray-200"} onClick={e => handleClick(e, "Tab 1")}><a href="#tab1" key={"tab1"}>Guess the lyrics</a></li>
                 <li className={activeTab === "Tab 2" ? "py-2 px-6 bg-green-400 rounded-t-lg text-black" : "py-2 px-6 bg-white rounded-t-lg text-gray-500 bg-gray-200"} onClick={e => handleClick(e, "Tab 2")}><a href="#tab2" key={"tab2"}>Higher or Lower</a></li>
             </ul>
-            <img className={wide ? "fixed bottom-0 right-10 w-1/6 ..." : "fixed invisible"} alt="Notorious B.I.G" src="https://i.gifer.com/X11G.gif"/>
-            <img className={wide ? "fixed bottom-0 left-0 w-1/4 ..." : "fixed invisible"} alt="Snoop Dogg" src="https://www.pikpng.com/pngl/b/188-1882327_biggie-smalls-png-clipart.png"/>
+            <img className={wide ? "fixed bottom-0 right-10 w-1/6 ..." : "fixed invisible"} alt="Snoop Dogg" src="https://i.gifer.com/X11G.gif"/>
+            <img className={wide ? "fixed bottom-0 left-0 w-1/4 ..." : "fixed invisible"} alt="Notorious B.I.G" src="https://www.pikpng.com/pngl/b/188-1882327_biggie-smalls-png-clipart.png"/>
             {/*DONT CLICK THIS LINK: "https://i.imgur.com/kQySfCM.gif" */}
               <div id="tab-contents">
                 <div id="first" className={activeTab === "Tab 1" ? "p-4" : "hidden p-4"}>

@@ -2,7 +2,6 @@ import React from 'react'
 
 
 const HigherLower = (props) => {
-    //                    <div className="grid place-items-center text-center p-2 flex-grow text-xl"> <div className='font-bold'>{props.track1} </div> by <div className='font-bold'>{props.artist1}</div></div> grid gap-y-2 place-items-center text-center p-2 text-xl bg-red-500"
     return (
         <div className="flex min-h-screen bg-gradient-to-b from-black via-black to-green-900 text-gray-300 font-mono flex-col flex-row">
             <div className='flex flex-col h-full flex-grow md:flex-col flex-grow'>
