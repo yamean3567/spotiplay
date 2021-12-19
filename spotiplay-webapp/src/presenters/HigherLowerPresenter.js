@@ -21,58 +21,68 @@ const HigherLowerPresenter = () => {
     const { currentUser } = AuthConsumer();
 
     const higher = async (id1h, id2h, tracksh) => {
-        if(!mounted) return;
-        if(id2h < id1h) {
-            //rätt
-            setLoading(true);
-            const {track1, id1, track2, id2, tracks} = await getTwoTracks(id1h, tracksh);
-            let newPoints = currentScore+1;
-            
-            setTimeout(() => {
-                dispatch({type: 'correctAnswer', payload: {currentScore: newPoints, newPoints: newPoints,
-                track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1, 
-                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
-                tracks: tracks, loading:loading}})
-                setLoading(false);
-            }, 500);
-        } else {
-            // fel
-            lostGame();
+        try{
+            if(!mounted) return;
+            if(id2h < id1h) {
+                //rätt
+                setLoading(true);
+                const {track1, id1, track2, id2, tracks} = await getTwoTracks(id1h, tracksh);
+                let newPoints = currentScore+1;
+                
+                setTimeout(() => {
+                    dispatch({type: 'correctAnswer', payload: {currentScore: newPoints, newPoints: newPoints,
+                    track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1, 
+                    track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
+                    tracks: tracks, loading:loading}})
+                    setLoading(false);
+                }, 500);
+            } else {
+                // fel
+                lostGame();
+            }
+        } catch {
+            //intentionally left blank
         }
     } 
 
     const lower = async (id1l, id2l, tracksl) => {
-        if(!mounted) return;
-        if(id2l > id1l) {
-            //rätt
-            setLoading(true);
-            const {track1, id1, track2, id2, tracks} = await getTwoTracks(id2l, tracksl);
-            let newPoints = currentScore+1;
-           
-            setTimeout(() => {
-                dispatch({type: 'correctAnswer', payload: { currentScore: newPoints, newPoints: newPoints,
-                track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
-                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
-                tracks: tracks, loading:loading}})
-                setLoading(false);
-            }, 500);
-        } else {
-            lostGame();
+        try {
+            if(!mounted) return;
+            if(id2l > id1l) {
+                //rätt
+                setLoading(true);
+                const {track1, id1, track2, id2, tracks} = await getTwoTracks(id2l, tracksl);
+                let newPoints = currentScore+1;
+            
+                setTimeout(() => {
+                    dispatch({type: 'correctAnswer', payload: { currentScore: newPoints, newPoints: newPoints,
+                    track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
+                    track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
+                    tracks: tracks, loading:loading}})
+                    setLoading(false);
+                }, 500);
+            } else {
+                lostGame();
+            }
+        } catch {
+            //intentionally left blank
         }
     } 
 
     //lost game
     const lostGame = async () => {
-        let prevScore = await getScore(currentUser.uid, "HL");
-        let beat = false;
-        if(prevScore < currentScore){
-            updateScore(currentUser.uid, currentScore, "HL");
-            beat = true;
-        } 
-        dispatch({type: 'lostGame', payload: {beatHighscore: beat}});
+        try {
+            let prevScore = await getScore(currentUser.uid, "HL");
+            let beat = false;
+            if(prevScore < currentScore){
+                updateScore(currentUser.uid, currentScore, "HL");
+                beat = true;
+            } 
+            dispatch({type: 'lostGame', payload: {beatHighscore: beat}});
+        } catch {
+            //intentionally left blank
+        }
     }
-
-    //handlers for game start/end etc
 
     //Handler for restarting game
     const restartGame = async () => {
@@ -86,13 +96,18 @@ const HigherLowerPresenter = () => {
     
     //Handler for starting game
     const startGame = async () => {
-        setLoading(true);
-        const tracks = await getTracks();
-        const {track1, id1, track2, id2} = await getTwoTracks(null, tracks);
-        dispatch({type: 'startGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
+        try {
+            setLoading(true);
+            const tracks = await getTracks();
+            const {track1, id1, track2, id2} = await getTwoTracks(null, tracks);
+            dispatch({type: 'startGame', payload: {track1:track1.track.track_name, artist1:track1.track.artist_name, id1:id1,
                                                track2:track2.track.track_name, artist2:track2.track.artist_name, id2:id2,
                                                newPoints: null, tracks:tracks, loading:loading}});
-        setLoading(false);
+            setLoading(false);
+        } catch {
+            //intentionally left blank
+        }
+        
     }
 
     //timers

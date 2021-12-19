@@ -21,59 +21,80 @@ const LyricsGuesserPresenter = () => {
 
     //Handler for guessing word
     const guessWord = async (e) => {
-        e.preventDefault();
-        if(guessedWord === '') return;
-        dispatch({type: 'disableForm', payload:{loadingMsg: "Guessing.."}});
-        if(word.word1.toLowerCase() === guessedWord.toLowerCase() || word.word2.toLowerCase() === guessedWord.toLowerCase()) {
-            //rätt svar
-            const {sentence, word, artist, track, album} = await getSentenceAndWord();
-            let newPoints = scoreTimer <= 0 ? 100 : scoreTimer*100 + Math.floor(Math.random() * 40);
-            setTimeout(() => {
-                dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, scoreTimer: 10, currentScore: currentScore + newPoints, newPoints: newPoints}});
-                dispatch({type:'setTrack', payload: {sentence: sentence, word: word, artist: artist, track: track, album: album}}) 
-            }, 200);
-        } else {
-            setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3, scoreTimer: scoreTimer}}), 200)
+        try {
+            e.preventDefault();
+            if(guessedWord === '') return;
+            dispatch({type: 'disableForm', payload:{loadingMsg: "Guessing.."}});
+            if(word.word1.toLowerCase() === guessedWord.toLowerCase() || word.word2.toLowerCase() === guessedWord.toLowerCase()) {
+                //rätt svar
+            
+                const {sentence, word, artist, track, album} = await getSentenceAndWord();
+                let newPoints = scoreTimer <= 0 ? 100 : scoreTimer*100 + Math.floor(Math.random() * 40);
+                setTimeout(() => {
+                    dispatch({type: 'correctAnswer', payload: {gameTime: gameTime + 5, scoreTimer: 10, currentScore: currentScore + newPoints, newPoints: newPoints}});
+                    dispatch({type:'setTrack', payload: {sentence: sentence, word: word, artist: artist, track: track, album: album}}) 
+                }, 200);
+            } else {
+                setTimeout(() => dispatch({type: 'wrongAnswer', payload: {gameTime: gameTime-3, scoreTimer: scoreTimer}}), 200)
+            }
+        } catch {
+            //intentionally left blank
         }
     }
 
     //Handler for skipping track
     const skipTrack = async () => {
-        dispatch({type: 'disableForm', payload: {loadingMsg: 'Skipping..'}});
-        if(currentScore < 400) {
-            lostGame();
-            return;
-        }
-        const {sentence, word, artist, track, album} = await getSentenceAndWord(); 
-        setTimeout(() => {
-            dispatch({type: 'skipTrack', payload: {scoreTimer: 10, currentScore: currentScore - 400, newPoints: 400}});
-            dispatch({type:'setTrack', payload: {sentence: sentence, word: word, artist: artist, track: track, album: album}})    
-            }, 200);
+        try {
+            dispatch({type: 'disableForm', payload: {loadingMsg: 'Skipping..'}});
+            if(currentScore < 400) {
+                lostGame();
+                return;
+            }
+            const {sentence, word, artist, track, album} = await getSentenceAndWord(); 
+            setTimeout(() => {
+                dispatch({type: 'skipTrack', payload: {scoreTimer: 10, currentScore: currentScore - 400, newPoints: 400}});
+                dispatch({type:'setTrack', payload: {sentence: sentence, word: word, artist: artist, track: track, album: album}})    
+                }, 200);
+        } catch {
+            //intentionally left blank
+        } 
     }
     
     //Handler for losing game
     const lostGame = async () => {
-        let prevScore = await getScore(currentUser.uid, "LG");
-        let beat = false;
-        if(prevScore < currentScore){
-            updateScore(currentUser.uid, currentScore, "LG");
-            beat = true;
-        } 
-        dispatch({type: 'lostGame', payload: {beatHighscore: beat}});
+        try{
+            let prevScore = await getScore(currentUser.uid, "LG");
+            let beat = false;
+            if(prevScore < currentScore){
+                updateScore(currentUser.uid, currentScore, "LG");
+                beat = true;
+            } 
+            dispatch({type: 'lostGame', payload: {beatHighscore: beat}});
+        } catch {
+            //intentionally left blank
+        }
     }
     
     //Handler for restarting game
     const restartGame = async () => {
-        const {sentence, word, artist, track, album} = await getSentenceAndWord();
-        dispatch({type:'setTrack', payload: {sentence: sentence, word: word, artist: artist, track: track, album: album}}) 
-        dispatch({type: 'restartGame', payload: {gameTime: 10, scoreTimer: 10, newPoints: null}});
+        try {
+            const {sentence, word, artist, track, album} = await getSentenceAndWord();
+            dispatch({type:'setTrack', payload: {sentence: sentence, word: word, artist: artist, track: track, album: album}}) 
+            dispatch({type: 'restartGame', payload: {gameTime: 10, scoreTimer: 10, newPoints: null}});
+        } catch {
+            //intentionally left blank
+        }
     }
 
     //Handler for starting game
     const startGame = async () => {
-        const {sentence, word, artist, track, album} = await getSentenceAndWord();
-        dispatch({type:'setTrack', payload: {sentence: sentence, word: word, artist: artist, track: track, album: album}}) 
-        dispatch({type: 'startGame', payload: {gameTime: 10, scoreTimer: 10, newPoints: null}});
+        try {
+            const {sentence, word, artist, track, album} = await getSentenceAndWord();
+            dispatch({type:'setTrack', payload: {sentence: sentence, word: word, artist: artist, track: track, album: album}}) 
+            dispatch({type: 'startGame', payload: {gameTime: 10, scoreTimer: 10, newPoints: null}});
+        } catch {
+            //intentionally left blank
+        }
     }
 
     //START-GAME timer
