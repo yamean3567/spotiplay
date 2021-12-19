@@ -4,4 +4,4 @@ Spotiplay is an application with two minigames relating to music. The user must 
 ## Set-up
 1. run the  **npm install** command in your terminal, this will install all necassary packadges for the web application.
 2. move to the *spotiplay-webapp* folder (using a command such as **cd spotiplay-webapp**)
-3. start the application by issuing the command **npm start**
+3. start the application with the command **npm start**
